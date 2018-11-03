@@ -31,14 +31,17 @@ import {
     ]),
     trigger('slideUp', [
       state('normal', style({
-        'transform': 'translateY(0%)'
+        'transform': 'translateY(0%)',
+          'font-size': '72px',
       })),
       state('up', style({
-        'transform': 'translateY(-200px)'
+        'transform': 'translateY(-200px)',
+          'font-size': '48px'
       })),
         transition('normal => up', [group([
         animate('1000ms ease-out', style({
-          'transform': 'translateY(-200px)'
+            'transform': 'translateY(-200px)',
+            'font-size': '48px',
         }))
       ])])
     ]),
@@ -77,6 +80,8 @@ export class HomePage {
   start() {
       this.loggedIn = false;
       this.showMedia = true;
+      setTimeout(() => document.getElementById("app-title").style.borderBottom = '1px #3dbfbf solid', 1000);
+//      setTimeout(() => document.getElementById("app-title").style.boxShadow = '0px 10px 21px 0px rgba(0,0,0,0.75)', 1000);
   }
 
   goTo(pageName: string) {
