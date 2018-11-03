@@ -3,6 +3,7 @@
         <h1 [@slideUp]="showMedia ? 'up' : 'normal'" id="app-title">Yourtrait</h1>
 
 
+<<<<<<< HEAD
         <!-- Intro Page -->
         <div [@fadeInOut]="showMedia ? 'out' : 'in'">
             <p id="intro-desc"><i>Determine your Myers-Brigg personality through social media</i></p>
@@ -26,6 +27,25 @@
             </ion-list>
         </div>
     </div>
+=======
+  <!-- Intro Page (After Start) -->
+  <div [@fadeInOut]="showMedia ? 'in' : 'out'">
+    <ion-list>
+      <ion-item (click)="goTo('Youtube')">
+        <ion-label>YouTube</ion-label>
+        <ion-checkbox [(ngModel)]="media.youtube" disabled></ion-checkbox>
+      </ion-item>
+      <ion-item (click)="goTo('Reddit')">
+        <ion-label>Reddit</ion-label>
+        <ion-checkbox [(ngModel)]="media.reddit" disabled></ion-checkbox>
+      </ion-item>
+      <ion-item (click)="goTo('Facebook')">
+        <ion-label>Facebook</ion-label>
+        <ion-checkbox [(ngModel)]="media.facebook" disabled></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </div>
+>>>>>>> a464c0e1bfcb5481ec46bf3d96af268e5867e5ca
 </ion-content>
 
 <ion-footer no-border>
