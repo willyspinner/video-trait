@@ -9,6 +9,8 @@ import {
   group
 } from '@angular/animations';
 
+import { YoutubeProvider } from '../../providers/youtube/youtube';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html',
@@ -70,7 +72,7 @@ export class HomePage {
     facebook: false
   }
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider) {
 
   }
 
@@ -84,6 +86,10 @@ export class HomePage {
   }
 
   loginYoutube() {
-    window.open("http://google.com", "myWindow", 'width=500,height=500');
+    this.youtubePvd.login()
+    .subscribe(res => {
+      console.log(res);
+    });
+    // window.open("http://google.com", "myWindow", 'width=500,height=500');
   }
 }
