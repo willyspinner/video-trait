@@ -16,12 +16,16 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
 })
 export class YoutubePage {
   loginUrl: string;
+  netErr: Object = null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private youtubePvd: YoutubeProvider) {
     youtubePvd.login()
     .subscribe(res => {
       console.log(res);
       this.loginUrl = res;
+    }, err => {
+      this.netErr = err;
+      console.error(err);
     });
   }
 

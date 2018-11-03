@@ -13,6 +13,9 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding text-center>
+  <div *ngIf="netErr">
+    <h1>{{ netErr.status }}</h1>
+    <p>{{ netErr.statusText }}</p>
+  </div>
 </ion-content>
