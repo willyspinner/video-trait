@@ -23,7 +23,7 @@ import {
         display: 'none'
       })),
       transition('in => out', [
-        animate('0s')
+        animate('.5s')
       ]),
       transition('out => in', [
         animate('1s')
