@@ -21,8 +21,7 @@ export class YoutubePage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private youtubePvd: YoutubeProvider) {
     youtubePvd.login()
     .subscribe(res => {
-      console.log(res);
-      this.loginUrl = res;
+        
     }, err => {
       this.netErr = err;
       console.error(err);
