@@ -29,29 +29,42 @@ import {
         animate('1s')
       ])
     ]),
-    trigger('slideDown', [
+    trigger('slideUp', [
       state('normal', style({
         'transform': 'translateY(0%)'
       })),
-      state('down', style({
-        'transform': 'translateY(100%)'
+      state('up', style({
+        'transform': 'translateY(-200px)'
       })),
-      transition('normal => down', [group([
-        animate('200ms ease-in', style({
-          'transform': 'translateY(100%)'
-        }))
-      ])]),
-      transition('down => normal', [group([
-        animate('200ms ease-in', style({
-          'transform': 'translateY(0%)'
+        transition('normal => up', [group([
+        animate('1000ms ease-out', style({
+          'transform': 'translateY(-200px)'
         }))
       ])])
-    ])
-  ]
-})
+    ]),
+      trigger('disableBtn', [
+          state('enabled', style({
+              'opacity': 1
+          })),
+          state('disabled', style({
+              'opacity': .4
+          })),
+          transition('enabled => disabled', [group([
+              animate('500ms', style({
+                  'opacity': .4
+              }))
+          ])]),
+          transition('disabled => enabled', [group([
+              animate('500ms', style({
+                  'opacity': 1
+              }))
+          ])]),
+      ])
+  ]})
 export class HomePage {
-  showMedia: boolean = false;
-  media: object = {
+    showMedia: boolean = false;
+    loggedIn = true;
+    media: object = {
     youtube: false,
     reddit: false,
     facebook: false
@@ -62,7 +75,8 @@ export class HomePage {
   }
 
   start() {
-    this.showMedia = true;
+      this.loggedIn = false;
+      this.showMedia = true;
   }
 
   goTo(pageName: string) {

@@ -1,3 +1,33 @@
 page-home {
-  
+    ion-content {
+        background-color: color($colors, dark) !important;
+    }
+    
+    #main-cont {
+        color: color($colors, txt-dark);
+    }
+    
+    #app-title {
+        color: color($colors, primary);
+        padding-top: 200px;
+        font-size: 70px;
+    }
+
+    #intro-desc {
+        font-size: 24px;
+    }
+    
+    .btn {
+        color: color($colors, txt-light);
+        background-color: color($colors, btn-active);
+    }
+    
+    .btn:hover {
+        background-color: color($colors, btn-hover) !important;
+    }
+    
+    #mainBtn {
+        height: 15vh;
+        font-size: 8vh;
+    }
 }
