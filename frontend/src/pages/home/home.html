@@ -13,7 +13,7 @@
 </ion-content>
 
 <ion-footer no-border>
-  <button (click)="start()" ion-button large full [@slideDown]="showMedia ? 'down' : 'normal'" class="no-margin">
-    START
+  <button (click)="showMedia ? submit() : start()" ion-button large full class="no-margin">
+    {{ showMedia ? 'SUBMIT' : 'START'}}
   </button>
 </ion-footer>
