@@ -17,6 +17,20 @@ page-home {
         font-size: 24px;
     }
     
+    #mediaLogins {
+        position: absolute;
+        top: 25vh;
+        left: 15vw;
+        width: 70vw;
+        height: 50vh;
+        background-color: #050505;
+        ion-list {
+            .item-md {
+                //background-color: transparent;
+            }
+        }
+    }
+    
     .btn {
         color: color($colors, txt-light);
         background-color: color($colors, btn-active);
