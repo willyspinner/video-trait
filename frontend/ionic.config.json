@@ -1,0 +1,7 @@
+{
+  "name": "videotrait",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
