@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend code for our calhacks project.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willyspinner/video-trait.git"
+  },
+  "author": "Wilson Jusuf & Hanif Leoputera",
+  "license": "ISC",
+  "homepage": "https://github.com/willyspinner/video-trait#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
