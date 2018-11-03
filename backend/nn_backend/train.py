@@ -19,7 +19,7 @@ max_timesteps = 30 # words
 dims = 200
 mbti_classes = 16
 num_datapoints = 0
-if os.environ("ENVIRON") == "production":
+if os.environ["ENVIRON"] == "production":
     num_datapoints = sum(1 for line in open(raw_dataset_path)) - 1  # 1 for the initial type,post
 else:
     num_datapoints = 100
