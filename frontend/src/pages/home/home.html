@@ -12,8 +12,8 @@
   </div>
 </ion-content>
 
-<ion-footer>
-  <button (click)="start()" ion-button large full class="no-margin">
+<ion-footer no-border>
+  <button (click)="start()" ion-button large full [@slideDown]="showMedia ? 'down' : 'normal'" class="no-margin">
     START
   </button>
 </ion-footer>

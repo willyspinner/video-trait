@@ -5,7 +5,8 @@ import {
   state,
   style,
   transition,
-  animate
+  animate,
+  group
 } from '@angular/animations';
 
 @Component({
@@ -27,6 +28,24 @@ import {
       transition('out => in', [
         animate('0.5s')
       ])
+    ]),
+    trigger('slideDown', [
+      state('normal', style({
+        'transform': 'translateY(0%)'
+      })),
+      state('down', style({
+        'transform': 'translateY(100%)'
+      })),
+      transition('normal => down', [group([
+        animate('200ms ease-in', style({
+          'transform': 'translateY(100%)'
+        }))
+      ])]),
+      transition('down => normal', [group([
+        animate('200ms ease-in', style({
+          'transform': 'translateY(0%)'
+        }))
+      ])])
     ])
   ]
 })
@@ -39,6 +58,5 @@ export class HomePage {
 
   start() {
     this.showMedia = true;
-    console.log(this.showMedia);
   }
 }
