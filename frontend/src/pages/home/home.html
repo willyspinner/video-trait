@@ -9,7 +9,7 @@
   <!-- Intro Page (After Start) -->
   <div [@fadeInOut]="showMedia ? 'in' : 'out'">
     <ion-list>
-      <ion-item (click)="goTo('Youtube')">
+      <ion-item (click)="loginYoutube()">
         <ion-label>YouTube</ion-label>
         <ion-checkbox [(ngModel)]="media.youtube" disabled></ion-checkbox>
       </ion-item>
