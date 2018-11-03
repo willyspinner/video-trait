@@ -51,6 +51,11 @@ import {
 })
 export class HomePage {
   showMedia: boolean = false;
+  media: object = {
+    youtube: false,
+    reddit: false,
+    facebook: false
+  }
 
   constructor(public navCtrl: NavController) {
 

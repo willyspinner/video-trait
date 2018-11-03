@@ -8,7 +8,20 @@
 
   <!-- Intro Page (After Start) -->
   <div [@fadeInOut]="showMedia ? 'in' : 'out'">
-    <p>Test</p>
+    <ion-list>
+      <ion-item>
+        <ion-label>YouTube</ion-label>
+        <ion-checkbox [(ngModel)]="media.youtube" disabled></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-label>Reddit</ion-label>
+        <ion-checkbox [(ngModel)]="media.reddit" disabled></ion-checkbox>
+      </ion-item>
+      <ion-item>
+        <ion-label>Facebook</ion-label>
+        <ion-checkbox [(ngModel)]="media.facebook" disabled></ion-checkbox>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>
 
