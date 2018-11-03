@@ -64,4 +64,8 @@ export class HomePage {
   start() {
     this.showMedia = true;
   }
+
+  goTo(pageName: string) {
+    this.navCtrl.push(pageName + 'Page');
+  }
 }
