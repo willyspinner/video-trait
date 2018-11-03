@@ -5,6 +5,10 @@
         <!-- Intro Page -->
         <div [@fadeInOut]="showMedia ? 'out' : 'in'">
             <p id="intro-desc"><i>Determine your Myers-Brigg personality through social media</i></p>
+            <br>
+            <h3><a target="_blank" href="">What is a Myers-Brigg personality?</a></h3>
+            <br>
+            <h3><a target="_blank" href="">GitHub repository</a></h3>
         </div>
 
         <!-- Intro Page (After Start) -->
@@ -28,7 +32,7 @@
 </ion-content>
 
 <ion-footer no-border>
-    <button (click)="showMedia ? submit() : start()" ion-button large full class="btn no-margin">
+    <button [disabled]="!loggedIn" (click)="showMedia ? submit() : start()" ion-button large full class="btn no-margin" id="mainBtn" color="btn" [@disableBtn]="loggedIn ? 'enabled' : 'disabled'">
         {{ showMedia ? 'SUBMIT' : 'START'}}
     </button>
 </ion-footer>

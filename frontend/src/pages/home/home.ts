@@ -41,12 +41,29 @@ import {
           'transform': 'translateY(-200px)'
         }))
       ])])
-    ])
-  ]
-})
+    ]),
+      trigger('disableBtn', [
+          state('enabled', style({
+              'opacity': 1
+          })),
+          state('disabled', style({
+              'opacity': .4
+          })),
+          transition('enabled => disabled', [group([
+              animate('500ms', style({
+                  'opacity': .4
+              }))
+          ])]),
+          transition('disabled => enabled', [group([
+              animate('500ms', style({
+                  'opacity': 1
+              }))
+          ])]),
+      ])
+  ]})
 export class HomePage {
     showMedia: boolean = false;
-    loggedIn = false;
+    loggedIn = true;
     media: object = {
     youtube: false,
     reddit: false,
@@ -58,6 +75,7 @@ export class HomePage {
   }
 
   start() {
+      this.loggedIn = false;
       this.showMedia = true;
   }
 
