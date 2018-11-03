@@ -9,6 +9,7 @@ from keras import optimizers
 from ml_model.PersonalityVector import to_numpy_class_vector
 from ml_model.LSTM import createLSTMModel
 from keras.callbacks import ReduceLROnPlateau
+import os
 # ********* dataset path ************
 raw_dataset_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1.csv')
 vectorized_dataset_X_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1_vectorized_X.h5')
@@ -17,7 +18,11 @@ vectorized_dataset_Y_path = path.join(path.dirname(path.abspath(__file__)), 'dat
 max_timesteps = 30 # words
 dims = 200
 mbti_classes = 16
-num_datapoints = 100  #   sum(1 for line in open(raw_dataset_path)) - 1  # 1 for the initial type,post
+num_datapoints = 0
+if os.environ("ENVIRON") == "production":
+    num_datapoints = sum(1 for line in open(raw_dataset_path)) - 1  # 1 for the initial type,post
+else:
+    num_datapoints = 100
 
 # ********* tuning ************
 traintest_split = 0.8 # train test split
