@@ -1,6 +1,15 @@
 <ion-content padding text-center>
   <h1>App Name</h1>
-  <p>Insert some <br>description here.</p>
+
+  <!-- Intro Page -->
+  <div [@fadeInOut]="showMedia ? 'out' : 'in'">
+    <p>Insert some <br>description here.</p>
+  </div>
+
+  <!-- Intro Page (After Start) -->
+  <div [@fadeInOut]="showMedia ? 'in' : 'out'">
+    <p>Test</p>
+  </div>
 </ion-content>
 
 <ion-footer>
