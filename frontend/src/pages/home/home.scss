@@ -1,3 +1,28 @@
 page-home {
-  
+    ion-content {
+        background-color: #222222 !important;
+    }
+    
+    #main-cont {
+        color: #787878;
+    }
+    
+    #app-title {
+        color: #3DBFBF;
+        padding-top: 200px;
+        font-size: 70px;
+    }
+
+    #intro-desc {
+        font-size: 24px;
+    }
+    
+    .btn {
+        color: #f7f7f7;
+        background-color: #39D860;
+    }
+    
+    .btn:hover {
+        background-color: #19B840 !important;
+    }
 }
