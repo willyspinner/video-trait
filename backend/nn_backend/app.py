@@ -4,7 +4,6 @@
 from flask import Flask
 from flask import request
 from keras.models import model_from_json
-import vectorize()
 app = Flask(__name__)
 model = None
 @app.route ("/analyze", methods=['POST'])
