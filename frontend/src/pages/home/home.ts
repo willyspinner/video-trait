@@ -82,4 +82,8 @@ export class HomePage {
   goTo(pageName: string) {
     this.navCtrl.push(pageName + 'Page');
   }
+
+  loginYoutube() {
+    window.open("http://google.com", "myWindow", 'width=500,height=500');
+  }
 }
