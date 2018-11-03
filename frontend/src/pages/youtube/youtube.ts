@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { YoutubeProvider } from '../../providers/youtube/youtube';
 
 /**
  * Generated class for the YoutubePage page.
@@ -14,8 +15,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'youtube.html',
 })
 export class YoutubePage {
+  loginUrl: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private youtubePvd: YoutubeProvider) {
+    youtubePvd.login()
+    .subscribe(res => {
+      console.log(res);
+      this.loginUrl = res;
+    });
   }
 
   ionViewDidLoad() {
