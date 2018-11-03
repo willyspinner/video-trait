@@ -12,15 +12,21 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 
 //NOTE: for each route, we prepend it with 'shmrk' to indicate 'shmrk'
 
-<<<<<<< Updated upstream
-app.post('/analyze', (req, res) => {
-      //TODO: handle request here.
-});
-=======
 app.post('/login', (req, res) => {
     /// Load client secrets from a local file.
+    fs.readFile('client_secret.json', function processClientSecrets(err, content) {
+        if (err) {
+          console.log('Error loading client secret file: ' + err);
+          return;
+        }
+        // Authorize a client with the loaded credentials, then call the YouTube API.
+        //See full code sample for authorize() function code.
+      authorize(JSON.parse(content), {'params': {'myRating': 'like',
+                       'part': 'contentDetails'}}, videosListMyRatedVideos);
+      
+      });
+    
  });
->>>>>>> Stashed changes
 
 
 
@@ -40,8 +46,6 @@ const shutDown = async (signal) => {
 process.on('SIGTERM', () => shutDown('SIGTERM'));
 process.on('SIGINT', () => shutDown('SIGINT'));
 
-<<<<<<< Updated upstream
-=======
 
 
 
@@ -57,17 +61,6 @@ var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'google-apis-nodejs-quickstart.json';
 
-fs.readFile('client_secret.json', function processClientSecrets(err, content) {
-    if (err) {
-      console.log('Error loading client secret file: ' + err);
-      return;
-    }
-    // Authorize a client with the loaded credentials, then call the YouTube API.
-    //See full code sample for authorize() function code.
-  authorize(JSON.parse(content), {'params': {'myRating': 'like',
-                   'part': 'contentDetails'}}, videosListMyRatedVideos);
-  
-  });
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -215,4 +208,3 @@ function videosListMyRatedVideos(auth, requestData) {
 
 
 
->>>>>>> Stashed changes
