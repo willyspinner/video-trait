@@ -26,7 +26,7 @@ import {
         animate('0s')
       ]),
       transition('out => in', [
-        animate('0.5s')
+        animate('1s')
       ])
     ]),
     trigger('slideDown', [
