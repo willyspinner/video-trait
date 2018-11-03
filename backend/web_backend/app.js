@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 //TODO: check env variables here, to see if they're defined or not.
 
+/*Youtube OAuth stuff */
+var fs = require('fs');
+var readline = require('readline');
+var {google} = require('googleapis');
+var OAuth2 = google.auth.OAuth2;
+
+
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -30,7 +37,6 @@ app.post('/login', (req, res) => {
 
 
 
-
 const port = process.env.PORT || 7200;
 const server = app.listen(port);
 console.log(`server running on port ${port}`);
@@ -54,12 +60,10 @@ process.on('SIGINT', () => shutDown('SIGINT'));
 /* ==============================================Youtube Auth============================================= */
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/youtube-nodejs-quickstart.json
-// If modifying these scopes, delete your previously saved credentials
-// at ~/.credentials/google-apis-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/youtube.force-ssl']
+var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
     process.env.USERPROFILE) + '/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'google-apis-nodejs-quickstart.json';
+var TOKEN_PATH = TOKEN_DIR + 'youtube-nodejs-quickstart.json';
 
 
 /**
