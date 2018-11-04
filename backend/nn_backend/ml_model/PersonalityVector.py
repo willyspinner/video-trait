@@ -1,26 +1,27 @@
 import numpy as np
 """
-prefix: ES EN IS IN
-suffix: TJ TP FP FJ 
+prefix: total /ES EN IS IN
+suffix: total /TJ TP FP FJ 
 """
 total = 8675
 weighings = {
-        0: 39 /total ,
-        1: 89 / total,
-        2: 48 / total,
-        3: 42 / total,
-        4: 231 / total,
-        5: 685 / total,
-        6: 675 /  total,
-        7: 190 / total,
-        8: 205 / total,
-        9: 337 / total,
-        10: 271 / total,
-        11: 166 / total,
-        12: 1091 / total,
-        13: 1304 / total,
-        14: 1832 / total,
-        15: 1470 / total
+    # the heavier the weight, the more they are under represented.
+        0: total / 39 ,
+        1: total /  89,
+        2: total /48  ,
+        3: total /  42,
+        4: total /231  ,
+        5: total /685  ,
+        6: total /675   ,
+        7: total /190  ,
+        8: total /205  ,
+        9: total /337  ,
+        10: total /271  ,
+        11: total /166  ,
+        12: total /1091  ,
+        13: total /1304  ,
+        14: total /1832  ,
+        15: total /1470
     }
 arr = [a+b for a in ["ES","EN","IS","IN"] for b in ["TJ","TP","FP","FJ"]]
 def output_0_ne_idx(i, idx):
