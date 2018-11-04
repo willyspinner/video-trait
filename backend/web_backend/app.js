@@ -61,7 +61,7 @@ app.post('/analyze', (req, res) => {
         var numchild  = require('os').cpus().length;
 
         for (var i = 0; i < video_ids.length ; i++){
-            exec(`/Users/Laputa9072/Desktop/calhacks/video-trait/backend/web_backend/ytdl.sh ${video_ids[i]}`) 
+            exec(`./ytdl.sh ${video_ids[i]}`) 
         }
 
 
