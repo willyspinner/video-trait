@@ -152,9 +152,9 @@ app.post("/api/analyze", (req, res) => {
       redirect_uri: reddit_redirect
     });
     token_response = fetch("https://www.reddit.com/api/v1/access_token", {
-      method: "post",
-      headers,
-      body: token_body
+      "method": "post",
+      "headers": {},
+      "body": token_body
     });
     console.log(token_response);
     const authToken = token_response.access_token;
@@ -164,8 +164,8 @@ app.post("/api/analyze", (req, res) => {
       "User-Agent": "ChangeMeClient/0.1 by YourUsername"
     });
     request_comment = fetch("https://oauth.reddit.com/api/v1/me", {
-      method: "get",
-      headers: get_headers
+      "method": "get",
+      "headers": get_headers
     });
     console.log(request_comment);
   }
