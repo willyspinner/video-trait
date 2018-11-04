@@ -6,6 +6,7 @@ const workerpool = require("workerpool");
 const path = require("path");
 const { spawn } = require("child_process");
 var request = require("request");
+var fetch = require ("fetch");
 require("dotenv").config({ path: path.join(__dirname, "settings.env") });
 //var exec = require('child_process').exec;
 //var worker = require('child_process');
@@ -150,21 +151,29 @@ app.post("/api/analyze", (req, res) => {
       code: req.body.redditToken,
       redirect_uri: reddit_redirect
     });
-    token_response = fetch("https://www.reddit.com/api/v1/access_token", {
-      method: "post",
-      headers,
-      body: token_body
+    token_response = fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
+      "method": "post",
+      "headers": {},
+      "body": token_body
+    }, (error, meta, body) => {
+      if(error)
+          console.log(error);
+      return body.access_token;
     });
     console.log(token_response);
-    const authToken = token_response.access_token;
+    const authToken = token_response;
 
     get_header = JSON.stringify({
       "Authorization": `bearer ${authToken}`,
       "User-Agent": "ChangeMeClient/0.1 by YourUsername"
     });
-    request_comment = fetch("https://oauth.reddit.com/api/v1/me", {
-      method: "get",
-      headers: get_headers
+    request_comment = fetch,fetchUrl("https://oauth.reddit.com/api/v1/me", {
+      "method": "get",
+      "headers": get_headers
+    }, (error, meta, body) => {
+      if(error)
+          console.log(error);
+      return body;
     });
     console.log(request_comment);
   }

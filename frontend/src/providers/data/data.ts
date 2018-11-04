@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { timeout } from 'rxjs/operators/timeout';
 import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
 import { config } from '../../config';
 
@@ -58,7 +59,7 @@ export class DataProvider {
   }
 
   sendTokens(tokens: object): Observable<Object> {
-    return this.http.post(this.getRoute() + '/analyze', tokens);
+    return this.http.post(this.getRoute() + '/analyze', tokens).pipe(timeout(90000));
   }
 
 }
