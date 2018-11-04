@@ -48,8 +48,14 @@ export class DataProvider {
   }
 
   loginFacebook(cb) {
-    FB.login(res => {
-      return cb(res);
+    FB.getLoginStatus(res => {
+      if (res.status === 'connected') {
+        return cb(res)
+      } else {
+        FB.login(res => {
+          return cb(res);
+        });
+      }
     });
   }
 

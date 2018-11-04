@@ -163,12 +163,16 @@ export class HomePage {
     this.facebookLoading = true;
     this.dataPvd.loginFacebook(res => {
       if (res.status === 'connected') {
-        this.storage.set('facebookToken', res.authResponse.token);
-        this.loggedIn = true;
-        this.facebookLoading = false;
-        this.facebookCheck = true;
+        this._zone.run(() => {
+          this.storage.set('facebookToken', res.authResponse.accessToken);
+          this.loggedIn = true;
+          this.facebookLoading = false;
+          this.facebookCheck = true;
+        });
       } else {
-        this.facebookLoading = false;
+        this._zone.run(() => {
+          this.facebookLoading = false;
+        });
       }
     });
   }
