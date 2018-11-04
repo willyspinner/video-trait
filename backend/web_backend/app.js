@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
+var exec = require('child_process').exec;
 //TODO: check env variables here, to see if they're defined or not.
 
 /*Youtube OAuth stuff */
@@ -60,11 +61,18 @@ app.post('/api/analyze', (req, res) => {
       oauth2Client.credentials = token;
       videosListMyRatedVideos(oauth2Client,
         {'params': {'myRating': 'like',
-      'part': 'contentDetails'}}
+      'part': 'contentDetails', 'maxResults': '20'}} 
       /* insert youtube API specific req data here */
     ).then((video_items)=>{
         console.log(video_items)
-        // TODO: do something with video items here.
+        var video_ids = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
+        var numchild  = require('os').cpus().length;
+
+        for (var i = 0; i < video_ids.length ; i++){
+            exec(`./ytdl.sh ${video_ids[i]}`) 
+        }
+
+
     }).catch((err)=>{
         console.error(err);
         res.status(500).json({"error":"Youtube API error."});

@@ -17,7 +17,7 @@ def createLSTMModel(timesteps, dims, n_classes, architecturePath, dropout):
     dim = dims
     model = Sequential()
     model.add(Masking(mask_value=0.0, input_shape=(timesteps, dim)))
-    model.add(LSTM(48, #return_sequences=True,
+    model.add(LSTM(64, #return_sequences=True,
                    dropout=lstm_dropout,
                    #recurrent_dropout = 0.3,
                    input_shape=(timesteps, dim),
