@@ -4,12 +4,18 @@
         <hr [@fadeInLine]="fadeInLine ? 'in' : 'out'" style="position: relative; top: -200px; background-color: #5DDFDF" id="titleLine">
 
         <!-- Intro Page -->
-        <div [@fadeInOut]="showMedia ? 'out' : 'in'">
-            <p id="intro-desc"><i>Determine your Myers-Brigg personality through social media analysis</i></p>
+        <div [@fadeInOut]="showMedia ? 'out' : 'in'" id="first-screen">
+            <p id="intro-desc"><i>Determine your Myers-Briggs personality through social media analysis!</i></p>
             <br>
-            <h3><a target="_blank" href="">What is a Myers-Brigg personality?</a></h3>
+            <a target="_blank" href="https://github.com/willyspinner/video-trait" ion-button icon-start round color="txt-light" class="first-buttons">
+              <ion-icon name="bookmarks"></ion-icon>
+              What is Myers-Briggs personality?
+            </a>
             <br>
-            <h3><a target="_blank" href="">GitHub repository</a></h3>
+            <a target="_blank" href="https://github.com/willyspinner/video-trait" ion-button icon-start round color="github" class="first-buttons">
+              <ion-icon name="logo-octocat"></ion-icon>
+              See Source Code on Github
+            </a>
         </div>
         <div id="mediaLogins" [@fadeInOut]="showMedia ? 'in' : 'out'">
             <h2>Provide your social media accounts:</h2>
