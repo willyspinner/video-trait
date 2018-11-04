@@ -149,7 +149,7 @@ app.post("/api/analyze", (req, res) => {
   }
   /* =====================================Reddit analysis================================ */
   if (req.body.redditToken) {
-    console.log(req.body.redditToken);
+    console.log("Here is the token: ", req.body.redditToken);
     token_body = JSON.stringify({
       grant_type: "authorization_code",
       code: req.body.redditToken,
@@ -163,7 +163,7 @@ app.post("/api/analyze", (req, res) => {
       if(error)
           console.log(error);
 
-      console(body);    
+       console.log("Here is what token gives back: " , body);    
       return body.access_token;
     });
     console.log(token_response);
