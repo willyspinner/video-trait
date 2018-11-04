@@ -2,7 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
-var exec = require('child_process').exec;
+const workerpool = require('workerpool')
+const path = require('path');
+const { spawn } = require('child_process');
+require('dotenv').config({path: path.join(__dirname,"settings.env")})
+//var exec = require('child_process').exec;
+//var worker = require('child_process');
 //TODO: check env variables here, to see if they're defined or not.
 
 /*Youtube OAuth stuff */
@@ -11,6 +16,8 @@ var readline = require('readline');
 var {google} = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
 
+// Imports the Google Cloud client library
+const vision = require('@google-cloud/vision');
 
 const bodyParser = require('body-parser')
 app.use(morgan('tiny'));
@@ -22,6 +29,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 //app.use(cookieParser());
 let clientSecret, clientId, redirectUrl, oauth2Client;
 
+
+// our worker pool for downloading and processing videos
+const pool = workerpool.pool(path.join(__dirname,"downloader_worker.js"));
 /* ==============================================Youtube Auth============================================= */
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/youtube-nodejs-quickstart.json
@@ -65,14 +75,21 @@ app.post('/api/analyze', (req, res) => {
       'part': 'contentDetails', 'maxResults': '20'}} 
       /* insert youtube API specific req data here */
     ).then((video_items)=>{
-        console.log(video_items)
-        var video_ids = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
-        var numchild  = require('os').cpus().length;
+         //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
+         var video_ids = video_items.map((item)=>item.id);
+        pool.exec('process_video',video_ids).then((aggregated_gcp_output)=>{
+            //TODO: send the data to 9500 - NN server.
+        }).catch(err => {
+          console.error('ERROR:', err);
+        });
 
-        for (var i = 0; i < video_ids.length ; i++){
-            exec(`./ytdl.sh ${video_ids[i]}`) 
-        }
+    }).catch((err)=>{
+        console.error(err);
+        res.status(500).json({"error":"Youtube API error."});
+    })
 
+ })
+});
 
     }).catch((err)=>{
         console.error(err);
