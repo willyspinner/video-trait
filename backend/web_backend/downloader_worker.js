@@ -19,12 +19,12 @@ const work = (vid_id)=>{
                 return;
             }
             sortedPath =[];
-            const createSorted = child_process.spawn(`ls $(pwd)/frames/img-${vid_id}*| sort`);
+            const createSorted = child_process.exec(`ls $(pwd)/frames/img-${vid_id}*| sort`);
             createSorted.stderr.on('data', (data)=>{
                 console.error("FIND ERR TING", data.toString);
             })
             createSorted.stdout.on('data', (filepath)=>{
-                sortedPath.append(filepath.toString);
+                sortedPath.push(filepath.toString);
             })
             createSorted.stdout.on('close', () =>  {   
             console.log(`worker processing video ${vid_id} closed path finding. Now doing label detection in GCP...`)

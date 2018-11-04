@@ -43,11 +43,10 @@ export class ResultPage {
       
       this.storage.get("uniqueID").then(unique => {if(unique != null ) this.id = unique})
       
-      if(this.id == null) {
+      if(this.id == -1) {
       this.storage.get("facebookToken").then(fbTok => {this.storage.get("youtubeToken").then(youtubeTok => {this.storage.get("redditToken").then(redditTok => {
 
       var res = 1;
-      fbTok = "marcus" // TESTING!!!
       if(fbTok != null)
           for(var x = 0; x < 6; x++)
               res += fbTok[x].charCodeAt(0) * Math.pow(10,x);
@@ -59,12 +58,13 @@ export class ResultPage {
               res += redditTok[x].charCodeAt(0) * Math.pow(10,x);
       this.storage.set("uniqueID", res);
       this.seed = res;
-      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '#result/' + res.toString();
-    window.history.pushState({path:newurl},'',newurl);
       })})})
       } else {
           this.seed = this.id;
       }
+      
+      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '#result/' + this.seed.toString();
+    window.history.pushState({path:newurl},'',newurl);
       document.getElementById("mind").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.introvert ? "introverted" : "extroverted") + "!";
       document.getElementById("energy").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.observant ? "observant" : "intuitive") + "!";
       document.getElementById("nature").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.feeling ? "feeling" : "thinking") + "!";
