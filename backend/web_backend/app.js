@@ -205,7 +205,7 @@ app.post("/api/analyze", (req, res) => {
   
     });
 
-});
+}});
 
 const port = process.env.PORT || 7200;
 app.listen(port);
