@@ -67,13 +67,13 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
       ])
   ]})
 export class HomePage {
-    showMedia: boolean = false;
-    loggedIn = true;
-    media: object = {
+  showMedia: boolean = false;
+  loggedIn: boolean = true;
+  media: object = {
     youtube: false,
     reddit: false,
     facebook: false
-  }
+  };
 
   constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider) {
 
@@ -91,9 +91,12 @@ export class HomePage {
   }
 
   loginYoutube() {
+    //window.open("http://google.com", 'popUp', 'width=500, height=500');
+    // loading.start()
     this.youtubePvd.login()
-    .subscribe(res => {
-      console.log(res);
+    .subscribe(data => {
+      let url: string = data;
+      window.open(url, 'popUp', 'width=500, height=500');
     });
     // window.open("http://google.com", "myWindow", 'width=500,height=500');
   }
