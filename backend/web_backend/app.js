@@ -1,4 +1,6 @@
-const express = require('express'); 
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
 const app = express();
 //TODO: check env variables here, to see if they're defined or not.
 
@@ -10,35 +12,71 @@ var OAuth2 = google.auth.OAuth2;
 
 
 const bodyParser = require('body-parser')
+app.use(morgan('tiny'));
+app.use(cors());
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 //app.use(cookieParser());
+let clientSecret, clientId, redirectUrl, oauth2Client;
 
+/* ==============================================Youtube Auth============================================= */
+// If modifying these scopes, delete your previously saved credentials
+// at ~/.credentials/youtube-nodejs-quickstart.json
+var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 
-//NOTE: for each route, we prepend it with 'shmrk' to indicate 'shmrk'
+let content = fs.readFileSync('client_secret.json');
+const credentials = JSON.parse(content);
+clientSecret = credentials.web.client_secret;
+clientId = credentials.web.client_id;
+redirectUrl = credentials.web.redirect_uri;
+oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
 
-app.post('/login', (req, res) => {
-    /// Load client secrets from a local file.
-    fs.readFile('client_secret.json', function processClientSecrets(err, content) {
-        if (err) {
-          console.log('Error loading client secret file: ' + err);
-          return;
-        }
-        // Authorize a client with the loaded credentials, then call the YouTube API.
-        //See full code sample for authorize() function code.
-      authorize(JSON.parse(content), {'params': {'myRating': 'like',
-                       'part': 'contentDetails'}}, videosListMyRatedVideos);
-      
-      });
-    
- });
+app.get('/authUrl', (req,res)=>{
+  const authUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES
+  });
+  res.status(200).send(authUrl);
+})
+
+app.get('/youtubeCallback', (req, res) => {
+  res.status(200).sendFile(__dirname + '/youtubeCallback.html');
+});
+
+app.post('/analyze', (req, res) => {
+    // body:
+    // req.body.token
+    if(!req.body.token){
+        res.status(400).json({"error":"No token present."});
+        return;
+    }
+    oauth2Client.getToken(req.body.token, function(err, token) {
+      if (err) {
+        res.status(400).json({"error":"token error."});
+        return;
+      }
+      oauth2Client.credentials = token;
+      videosListMyRatedVideos(oauth2Client,
+        {'params': {'myRating': 'like',
+      'part': 'contentDetails'}}
+      /* insert youtube API specific req data here */
+    ).then((video_items)=>{
+        console.log(video_items)
+        // TODO: do something with video items here.
+    }).catch((err)=>{
+        console.error(err);
+        res.status(500).json({"error":"Youtube API error."});
+    })
+
+ })
+});
 
 
 
 const port = process.env.PORT || 7200;
-const server = app.listen(port);
+app.listen(port);
 console.log(`server running on port ${port}`);
 
 // trapping exit signals.
@@ -58,86 +96,7 @@ process.on('SIGINT', () => shutDown('SIGINT'));
 
 
 /* ==============================================Youtube Auth============================================= */
-// If modifying these scopes, delete your previously saved credentials
-// at ~/.credentials/youtube-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
-var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'youtube-nodejs-quickstart.json';
 
-
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- *
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
-function authorize(credentials, requestData, callback) {
-  var clientSecret = credentials.web.client_secret;
-  var clientId = credentials.web.client_id;
-  var redirectUrl = credentials.web.redirect_uri; 
-  var oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
-
-  // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, function(err, token) {
-    if (err) {
-      getNewToken(oauth2Client, requestData, callback);
-    } else {
-      oauth2Client.credentials = JSON.parse(token);
-      callback(oauth2Client, requestData);
-    }
-  });
-}
-
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- *
- * @param {google.auth.OAuth2} oauth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback to call with the authorized
- *     client.
- */
-function getNewToken(oauth2Client, requestData, callback) {
-  var authUrl = oauth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES
-  });
-  console.log('Authorize this app by visiting this url: ', authUrl);
-  var rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
-  rl.question('Enter the code from that page here: ', function(code) {
-    rl.close();
-    oauth2Client.getToken(code, function(err, token) {
-      if (err) {
-        console.log('Error while trying to retrieve access token', err);
-        return;
-      }
-      oauth2Client.credentials = token;
-      storeToken(token);
-      callback(oauth2Client, requestData);
-    });
-  });
-}
-
-/**
- * Store token to disk be used in later program executions.
- *
- * @param {Object} token The token to store to disk.
- */
-function storeToken(token) {
-  try {
-    fs.mkdirSync(TOKEN_DIR);
-  } catch (err) {
-    if (err.code != 'EEXIST') {
-      throw err;
-    }
-  }
-  fs.writeFile(TOKEN_PATH, JSON.stringify(token));
-  console.log('Token stored to ' + TOKEN_PATH);
-}
 
 /**
  * Remove parameters that do not have values.
@@ -164,51 +123,21 @@ function removeEmptyParameters(params) {
  * @return {Object} A JSON object. The function nests properties based on
  *                  periods (.) in property names.
  */
-function createResource(properties) {
-  var resource = {};
-  var normalizedProps = properties;
-  for (var p in properties) {
-    var value = properties[p];
-    if (p && p.substr(-2, 2) == '[]') {
-      var adjustedName = p.replace('[]', '');
-      if (value) {
-        normalizedProps[adjustedName] = value.split(',');
-      }
-      delete normalizedProps[p];
-    }
-  }
-  for (var p in normalizedProps) {
-    // Leave properties that don't have values out of inserted resource.
-    if (normalizedProps.hasOwnProperty(p) && normalizedProps[p]) {
-      var propArray = p.split('.');
-      var ref = resource;
-      for (var pa = 0; pa < propArray.length; pa++) {
-        var key = propArray[pa];
-        if (pa == propArray.length - 1) {
-          ref[key] = normalizedProps[p];
-        } else {
-          ref = ref[key] = ref[key] || {};
-        }
-      }
-    };
-  }
-  return resource;
-}
 
 
 function videosListMyRatedVideos(auth, requestData) {
-  var service = google.youtube('v3');
-  var parameters = removeEmptyParameters(requestData['params']);
-  parameters['auth'] = auth;
-  service.videos.list(parameters, function(err, response) {
-    if (err) {
-      console.log('The API returned an error: ' + err);
-      return;
-    }
-    console.log(response.data.items);
-  });
+    return new Promise((resolve,reject)=>{
+        var service = google.youtube('v3');
+        var parameters = removeEmptyParameters(requestData['params']);
+        parameters['auth'] = auth;
+        service.videos.list(parameters, function(err, response) {
+            if (err) {
+                console.log('The API returned an error: ' + err);
+                reject(err);
+                return;
+            }else{
+                resolve(response.data.items);
+            }
+        })
+    });
 }
-
-
-
-

@@ -1,0 +1,28 @@
+<!doctype html5>
+<html>
+  <head>
+  </head>
+  <body>
+    <p>Logging in...</p>
+
+    <script>
+      window.onload = function() {
+        var re = /(?<=code=)(.*)(?=&)/;
+        var parse = re.exec(window.location.href);
+
+        var code = '';
+        if (parse) {
+          code = parse[0];
+        }
+
+        try {
+          window.opener.loginYoutubeCallback(code);
+        }
+        catch (err) {
+          console.log(err);
+        }
+        window.close();
+      }
+    </script>
+  </body>
+</html>
