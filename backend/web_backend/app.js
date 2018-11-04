@@ -5,6 +5,7 @@ const app = express();
 const workerpool = require('workerpool')
 const path = require('path');
 const { spawn } = require('child_process');
+var request = require('request';)
 require('dotenv').config({path: path.join(__dirname,"settings.env")})
 //var exec = require('child_process').exec;
 //var worker = require('child_process');
@@ -98,7 +99,17 @@ app.post('/api/analyze', (req, res) => {
          //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
          var video_ids = video_items.map((item)=>item.id);
         pool.exec('process_video',video_ids).then((aggregated_gcp_output)=>{
-            //TODO: send the data to 9500 - NN server.
+          //NOTE: aggregated_gcp_output  is an array of individual video answers.
+          request.post("http://localhost:9500/analyze", {
+            json: aggregated_gcp_output
+          }, function(err, httpResponse, body){
+            if(err){
+              res.status(500).json({"error":"nn-server down."});
+              return; 
+            }
+            res.status(200).send(body);
+          })
+
         }).catch(err => {
           console.error('ERROR:', err);
         });
