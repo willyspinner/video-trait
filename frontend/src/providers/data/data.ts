@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from '../../config';
@@ -10,7 +10,7 @@ import { config } from '../../config';
   and Angular DI.
 */
 @Injectable()
-export class YoutubeProvider {
+export class DataProvider {
 
   constructor(public http: HttpClient) {
   }
@@ -19,17 +19,29 @@ export class YoutubeProvider {
     if (config.prod) {
       return config.domain + '/api';
     } else {
-      return 'http://localhost:' + config.port;
+      return 'http://localhost:' + config.port + '/api';
     }
   }
 
-  login(): Observable<Object> {
+  loginYoutube(): Observable<Object> {
     return this.http.get(this.getRoute() + '/authUrl', {
       responseType: 'text'
     });
   }
 
-  sendToken(code: string): Observable<Object> {
+  sendTokenYoutube(code: string): Observable<Object> {
+    return this.http.post(this.getRoute() + '/analyze', {
+      token: code
+    });
+  }
+
+  loginReddit(): Observable<Object> {
+    return this.http.get(this.getRoute() + '/authReddit', {
+      responseType: 'text'
+    });
+  }
+
+  sendTokenReddit(code: string): Observable<Object> {
     return this.http.post(this.getRoute() + '/analyze', {
       token: code
     });

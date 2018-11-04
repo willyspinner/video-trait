@@ -10,7 +10,7 @@ import {
   group
 } from '@angular/animations';
 
-import { YoutubeProvider } from '../../providers/youtube/youtube';
+import { DataProvider } from '../../providers/data/data';
 
 function _window(): any {
   return window;
@@ -88,10 +88,11 @@ export class HomePage {
   loggedIn: boolean = true;
   youtubeLoading: boolean = false;
   youtubeCheck: boolean = false;
+  redditLoading: boolean = false;
   redditCheck: boolean = false;
   facebookCheck: boolean = false;
 
-  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage, private _zone: NgZone) {
+  constructor(public navCtrl: NavController, private dataPvd: DataProvider, private storage: Storage, private _zone: NgZone) {
     console.log(storage);
     storage.set('test', '123');
   }
@@ -109,7 +110,7 @@ export class HomePage {
 
   loginYoutube() {
     this.youtubeLoading = true;
-    this.youtubePvd.login()
+    this.dataPvd.loginYoutube()
     .subscribe(data => {
       let url: any = data;
       let that = this;
@@ -131,6 +132,30 @@ export class HomePage {
       this.youtubeCheck = true;
     })
   }
+
+  loginReddit() {
+    this.redditLoading = true;
+    this.dataPvd.loginReddit()
+    .subscribe(data => {
+      let url: any = data;
+      let that = this;
+      let selfWindow = _window();
+
+      selfWindow.loginRedditCallback = function(code) {
+        that.loginRedditCallback.call(that, code);
+      };
+
+      window.open(url, 'redditPopup', 'width=500, height=500');
+    });
+  }
+
+loginRedditCallback(code) {
+  this._zone.run(() => {
+    this.storage.set('redditToken', code);
+    this.redditLoading = false;
+    this.redditCheck = true;
+  });
+}
 
   submit() {
     this.navCtrl.push('LoadingPage');

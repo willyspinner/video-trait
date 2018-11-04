@@ -10,7 +10,7 @@ import {
   group
 } from '@angular/animations';
 
-import { YoutubeProvider } from '../../providers/youtube/youtube';
+import { DataProvider } from '../../providers/data/data';
 
 /**
  * Generated class for the ResultPage page.
@@ -80,14 +80,14 @@ export class LoadingPage {
       "slideOutLeft",
       "slideOutRight"
   ];
-  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private youtubePvd: YoutubeProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private dataPvd: DataProvider) {
       this.generateMsgTimes();
   }
 
   randomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-    
+
   randomAnim(enter) {
       if(enter) {
           var x = this.randomInt(0, this.enterAnims.length - 1);
@@ -95,7 +95,7 @@ export class LoadingPage {
       }
       return this.exitAnims[this.randomInt(0, this.exitAnims.length - 1)]
   }
-    
+
   showNextMsg() {
       let backup: string = "";
       if(this.currentMsg != 0 && this.currentMsg != this.msgTimes.length - 1) {
@@ -103,11 +103,11 @@ export class LoadingPage {
           let backup: string = document.getElementById("msg" + this.currentMsg).className;
           document.getElementById("msg" + this.currentMsg).className += exitAnim;
       }
-      
+
       this.currentMsg += 1;
-      
+
       if(this.currentMsg < this.msgTimes.length) {
-      
+
       let enterAnim: string = " animated " + this.randomAnim(true);
       backup = document.getElementById("msg" + this.currentMsg).className;
       document.getElementById("msg" + this.currentMsg).className += enterAnim;
@@ -130,7 +130,7 @@ export class LoadingPage {
           filledTime += this.msgTimes[i];
       }
   }
-    
+
   startMessages() {
       if(this.currentMsg < this.msgTimes.length - 1) {
           if(this.currentMsg == 0) {
@@ -140,14 +140,14 @@ export class LoadingPage {
           else {
             setTimeout(() => {this.startMessages(); this.showNextMsg(); }, this.msgTimes[this.currentMsg] * 1000);
           }
-      } 
+      }
   }
 
   ionViewDidLoad() {
       this.startMessages();
     this.storage.get('youtubeToken')
     .then(token => {
-      this.youtubePvd.sendToken(token)
+      this.dataPvd.sendTokenYoutube(token)
       .subscribe(data => {
         console.log(data);
         this.storage.set('result', JSON.stringify(data));
@@ -155,7 +155,7 @@ export class LoadingPage {
       });
     });
   }
-    
-  
+
+
 
 }

@@ -34,6 +34,17 @@ clientId = credentials.web.client_id;
 redirectUrl = credentials.web.redirect_uri;
 oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
 
+/* ==============================================Reddit Auth============================================= */
+var REDDIT_SCOPES = ['history'];
+
+const reddit_secret = credentials.reddit_secret;
+const reddit_id = credentials.reddit_id;
+const reddit_response = 'code';
+const reddit_state = 'yourtrait';
+const reddit_redirect = 'https://yourtrait.app/api/redditCallback';
+const reddit_duration = 'temporary';
+const reddit_scope = REDDIT_SCOPES.join(',');
+
 app.get('/api/authUrl', (req,res)=>{
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -42,7 +53,17 @@ app.get('/api/authUrl', (req,res)=>{
   res.status(200).send(authUrl);
 })
 
+app.get('/api/authReddit', (req, res) => {
+  const authUrl = `https://www.reddit.com/api/v1/authorize?client_id=${reddit_id}&response_type=${reddit_response}&state=${reddit_state}&redirect_uri=${reddit_redirect}&duration=${reddit_duration}&scope=${reddit_scope}`;
+  console.log(authUrl);
+  res.status(200).send(authUrl);
+});
+
 app.get('/api/youtubeCallback', (req, res) => {
+  res.status(200).sendFile(__dirname + '/youtubeCallback.html');
+});
+
+app.get('/api/redditCallback', (req, res) => {
   res.status(200).sendFile(__dirname + '/youtubeCallback.html');
 });
 
@@ -62,7 +83,7 @@ app.post('/api/analyze', (req, res) => {
       oauth2Client.credentials = token;
       videosListMyRatedVideos(oauth2Client,
         {'params': {'myRating': 'like',
-      'part': 'contentDetails', 'maxResults': '20'}} 
+      'part': 'contentDetails', 'maxResults': '20'}}
       /* insert youtube API specific req data here */
     ).then((video_items)=>{
         console.log(video_items)
@@ -70,7 +91,7 @@ app.post('/api/analyze', (req, res) => {
         var numchild  = require('os').cpus().length;
 
         for (var i = 0; i < video_ids.length ; i++){
-            exec(`./ytdl.sh ${video_ids[i]}`) 
+            exec(`./ytdl.sh ${video_ids[i]}`)
         }
 
 

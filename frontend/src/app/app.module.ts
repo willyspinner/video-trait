@@ -10,7 +10,7 @@ import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { YoutubeProvider } from '../providers/youtube/youtube';
+import { DataProvider } from '../providers/data/data';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { YoutubeProvider } from '../providers/youtube/youtube';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    YoutubeProvider
+    DataProvider
   ]
 })
 export class AppModule {}
