@@ -9,12 +9,15 @@ import { Storage } from '@ionic/storage';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+  segment: 'result/:id'
+})
 @Component({
   selector: 'page-result',
   templateUrl: 'result.html',
 })
 export class ResultPage {
+  id: number;
   result: any;
   introvert: boolean;
   observant: boolean;
@@ -24,8 +27,10 @@ export class ResultPage {
   seed: number = 1;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+    this.id = navParams.data.id;
+    console.log(this.id);
   }
-    
+
   handleResult() {
       this.introvert = this.result[0] == 'I';
       this.observant = this.result[1] == 'S';
@@ -36,7 +41,7 @@ export class ResultPage {
       document.getElementById("nature").querySelector('.trait-label').innerHTML = this.feeling ? "<b>F</b>EELING" : "<b>T</b>HINKING";
       document.getElementById("tactics").querySelector('.trait-label').innerHTML = this.prospecting ? "<b>P</b>ROSPECTING" : "<b>J</b>UDGING";
       this.storage.get("facebookToken").then(fbTok => {this.storage.get("youtubeToken").then(youtubeTok => {this.storage.get("redditToken").then(redditTok => {
-          
+
       var res = 1;
       fbTok = "marcus" // TESTING!!!
       if(fbTok != null)
@@ -56,9 +61,9 @@ export class ResultPage {
       document.getElementById("energy").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.observant ? "observant" : "intuitive") + "!";
       document.getElementById("nature").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.feeling ? "feeling" : "thinking") + "!";
       document.getElementById("tactics").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.prospecting ? "prospecting" : "judging") + "!";
-      
+
   }
-    
+
     random() {
         var x = Math.sin(this.seed++) * 10000;
         return x - Math.floor(x);
