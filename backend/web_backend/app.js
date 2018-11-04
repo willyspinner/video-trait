@@ -173,7 +173,7 @@ app.post("/api/analyze", (req, res) => {
     }, (error, meta, body) => {
       if(error)
           console.log(error);
-      return body.access_token;
+      return body;
     });
     console.log(request_comment);
   }
