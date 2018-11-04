@@ -13,10 +13,10 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
 
 @IonicPage()
 @Component({
-  selector: 'page-result',
-  templateUrl: 'result.html',
+  selector: 'page-loading',
+  templateUrl: 'loading.html',
 })
-export class ResultPage {
+export class LoadingPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage, private youtubePvd: YoutubeProvider) {
   }

@@ -128,6 +128,6 @@ export class HomePage {
   }
 
   submit() {
-    this.navCtrl.push('ResultPage');
+    this.navCtrl.push('LoadingPage');
   }
 }
