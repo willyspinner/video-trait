@@ -157,7 +157,7 @@ export class LoadingPage {
       .then(redditToken => {
         this.storage.get('facebookToken')
         .then(facebookToken => {
-          let tokens: Tokens;
+          let tokens: Tokens = {};
           if (youtubeToken) {
             tokens.youtubeToken = youtubeToken;
           }
