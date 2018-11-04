@@ -121,6 +121,7 @@ export class HomePage {
   }
 
   loginYoutubeCallback(code) {
+    console.log(code);
     this.storage.set('youtubeToken', code);
     this.loggedIn = true;
     // loading stop
