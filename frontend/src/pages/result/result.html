@@ -6,7 +6,7 @@
     <div id="main-cont">
         <div id="results-div">
             <h3 style="margin-bottom: 0px !important;">Based on your social media history, you are an</h3>
-            <h1 id="result">{{result}}</h1>
+            <h1 id="result" [ngStyle]="{'color':nicknameColor}">{{result}}</h1>
             <h3>otherwise known as a(n)</h3>
             <h1 id="nickname" [ngStyle]="{'color':nicknameColor}">{{ nickname }}</h1>
             <hr style="width: 90%; background-color: #f7f7f7">
