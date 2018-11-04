@@ -23,7 +23,6 @@ export class ResultPage {
   observant: boolean;
   feeling: boolean;
   prospecting: boolean;
-  uniqueID: number;
   seed: number = 1;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
@@ -32,6 +31,78 @@ export class ResultPage {
   }
 
   handleResult() {
+      document.getElementById("result").innerHTML = this.result;
+      var qq = "";
+      var clr = "";
+      switch(this.result) {
+          case "INTJ":
+              qq = "Architect";
+              clr = "#A085B0";
+              break;
+          case "INTP":
+              qq = "Logician";
+              clr = "#A085B0";
+              break;
+          case "ENTJ":
+              qq = "Commander";
+              clr = "#A085B0";
+              break;
+          case "ENTP":
+              qq = "Debater";
+              clr = "#A085B0";
+              break;
+          case "INFJ":
+              qq = "Advocate";
+              clr = "#D8E157";
+              break;
+          case "INFP":
+              qq = "Mediator";
+              clr = "#D8E157";
+              break;
+          case "ENFJ":
+              qq = "Protagonist";
+              clr = "#D8E157";
+              break;
+          case "ENFP":
+              qq = "Campaigner";
+              clr = "#D8E157";
+              break;
+          case "ISTJ":
+              qq = "Logistician";
+              clr = "#3CA0BA";
+              break;
+          case "ISFJ":
+              qq = "Defender";
+              clr = "#3CA0BA";
+              break;
+          case "ESTJ":
+              qq = "Executive";
+              clr = "#3CA0BA";
+              break;
+          case "ESFJ":
+              qq = "Consul";
+              clr = "#3CA0BA";
+              break;
+          case "ISTP":
+              qq = "Virtuoso";
+              clr = "#BF8F00";
+              break;
+          case "ISFP":
+              qq = "Adventurer";
+              clr = "#BF8F00";
+              break;
+          case "ESTP":
+              qq = "Entrepreneur";
+              clr = "#BF8F00";
+              break;
+          case "ESFP":
+              qq = "Entertainer";
+              clr = "#BF8F00";
+              break;
+      }
+      document.getElementById("nickname").innerHTML = qq;
+      document.getElementById("nickname").style.color = clr;
+      document.getElementById("result").style.color = clr;
       this.introvert = this.result[0] == 'I';
       this.observant = this.result[1] == 'S';
       this.feeling = this.result[2] == 'F';
@@ -41,12 +112,10 @@ export class ResultPage {
       document.getElementById("nature").querySelector('.trait-label').innerHTML = this.feeling ? "<b>F</b>EELING" : "<b>T</b>HINKING";
       document.getElementById("tactics").querySelector('.trait-label').innerHTML = this.prospecting ? "<b>P</b>ROSPECTING" : "<b>J</b>UDGING";
       
-      this.storage.get("uniqueID").then(unique => {if(unique != null ) this.id = unique})
-      
       if(this.id == -1) {
       this.storage.get("facebookToken").then(fbTok => {this.storage.get("youtubeToken").then(youtubeTok => {this.storage.get("redditToken").then(redditTok => {
 
-      var res = 1;
+      var res = (Math.random() * 30000) + 10;
       if(fbTok != null)
           for(var x = 0; x < 6; x++)
               res += fbTok[x].charCodeAt(0) * Math.pow(10,x);
@@ -56,19 +125,36 @@ export class ResultPage {
       if(redditTok != null)
           for(var x = 0; x < 6; x++)
               res += redditTok[x].charCodeAt(0) * Math.pow(10,x);
-      this.storage.set("uniqueID", res);
-      this.seed = res;
+      var x = (this.introvert ? 8 : 0) + (this.observant ? 4 : 0) + (this.feeling ? 2 : 0) + (this.prospecting ? 1 : 0);
+      this.seed = parseInt(res.toString() + (parseInt(res.toString().substring(0,2)) + x).toString());
+          var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '#result/' + this.seed.toString();
+          window.history.pushState({path:newurl},'',newurl);
+          window.location.reload(true);
       })})})
       } else {
+          if(this.seed != this.id) {
           this.seed = this.id;
+          var x = parseInt(this.id.toString().substring(this.id.toString().length - 2, this.id.toString().length)) -parseInt(this.id.toString().substring(0,2));
+          var l1 = x >= 8 ? "I" : "E";
+          var l2 = l1 == "I" ? (x - 8 >= 4 ? "S" : "N") : (x >= 4 ? "S" : "N");
+          var l3 = l1 == "I" ? (l2 == "S" ? (x - 12 >= 2 ? "F" : "T") : (x - 8 >= 2 ? "F" : "T")) : (l2 == "S" ? (x - 4 >= 2 ? "F" : "T") : (x >= 2 ? "F" : "T"));
+          var l4 = x % 2 == 1 ? "P" : "J";
+          this.result = l1 + l2 + l3 + l4;
+          this.handleResult();
+      }
       }
       
-      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '#result/' + this.seed.toString();
-    window.history.pushState({path:newurl},'',newurl);
-      document.getElementById("mind").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.introvert ? "introverted" : "extroverted") + "!";
-      document.getElementById("energy").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.observant ? "observant" : "intuitive") + "!";
-      document.getElementById("nature").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.feeling ? "feeling" : "thinking") + "!";
-      document.getElementById("tactics").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random())).toString().substring(0, 2) + "% ") + (this.prospecting ? "prospecting" : "judging") + "!";
+      document.getElementById("mindLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.introvert ? "#B3E8F0" : "#EF8127") + ", transparent 250%);";
+      
+      document.getElementById("energyLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.observant ? "#F0E93A" : "#8738AF") + ", transparent 250%);";
+      
+      document.getElementById("natureLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.feeling ? "#FF3127" : "#6BCE50") + ", transparent 250%);";
+      
+      document.getElementById("tacticsLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.prospecting ? "#EB97E9" : "#0189C3") + ", transparent 250%);";
+      document.getElementById("mind").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.introvert ? "introverted" : "extroverted") + "!";
+      document.getElementById("energy").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.observant ? "observant" : "intuitive") + "!";
+      document.getElementById("nature").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.feeling ? "feeling" : "thinking") + "!";
+      document.getElementById("tactics").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.prospecting ? "prospecting" : "judging") + "!";
 
   }
 
@@ -78,7 +164,7 @@ export class ResultPage {
     }
 
   ionViewDidLoad() {
-      this.result = "ISFP" // debug
+      this.result = ""; // debug
     this.storage.get('result')
     .then(result => {
       //this.result = result;
