@@ -33,7 +33,7 @@ clientId = credentials.web.client_id;
 redirectUrl = credentials.web.redirect_uri;
 oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
 
-app.get('/authUrl', (req,res)=>{
+app.get('/api/authUrl', (req,res)=>{
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES
@@ -41,11 +41,11 @@ app.get('/authUrl', (req,res)=>{
   res.status(200).send(authUrl);
 })
 
-app.get('/youtubeCallback', (req, res) => {
+app.get('/api/youtubeCallback', (req, res) => {
   res.status(200).sendFile(__dirname + '/youtubeCallback.html');
 });
 
-app.post('/analyze', (req, res) => {
+app.post('/api/analyze', (req, res) => {
     // body:
     // req.body.token
     if(!req.body.token){
