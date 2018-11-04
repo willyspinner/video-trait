@@ -155,9 +155,13 @@ app.post("/api/analyze", (req, res) => {
       code: req.body.redditToken,
       redirect_uri: reddit_redirect
     });
+    token_header = JSON.stringify({
+      "client_id": reddit_id,
+      "client_secret": reddit_secret
+    });
     fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
       "method": "post",
-      "headers": {},
+      "headers": token_header,
       "body": token_body
     }, (error, meta, body) => {
       if(error)
@@ -200,12 +204,6 @@ app.post("/api/analyze", (req, res) => {
       });
   
     });
-    
-
-
-
-
-}
 
 });
 
