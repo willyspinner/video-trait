@@ -173,7 +173,7 @@ export class LoadingPage {
             console.log(data);
             this.storage.set('result', data);
             this.navCtrl.push('ResultPage', {
-              'id': ''
+              'id': '-1'
             });
           });
         });
