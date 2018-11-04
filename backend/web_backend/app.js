@@ -85,7 +85,6 @@ app.get("/api/redditCallback", (req, res) => {
 app.post("/api/analyze", (req, res) => {
   // body:
   // req.body.youtubeToken
-  console.dir(req.body);
   if (req.body.youtubeToken) {
     req.body.youtubeToken = req.body.youtubeToken.replace("%2F", "/");
     oauth2Client.getToken(req.body.youtubeToken, function(err, token) {
@@ -167,15 +166,17 @@ app.post("/api/analyze", (req, res) => {
       "Authorization": `bearer ${authToken}`,
       "User-Agent": "ChangeMeClient/0.1 by YourUsername"
     });
-    request_comment = fetch,fetchUrl("https://oauth.reddit.com/api/v1/me", {
+    request_comment = fetch.fetchUrl("https://oauth.reddit.com/api/v1/me", {
       "method": "get",
-      "headers": get_headers
+      "headers": get_header
     }, (error, meta, body) => {
       if(error)
           console.log(error);
       return body;
     });
     console.log(request_comment);
+
+
   }
 
 
