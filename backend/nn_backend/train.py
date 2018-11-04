@@ -10,7 +10,7 @@ from keras.models import model_from_json
 from keras.callbacks import ReduceLROnPlateau
 import numpy as np
 from keras import optimizers
-from ml_model.PersonalityVector import to_numpy_class_vector
+from ml_model.PersonalityVector import to_numpy_class_vector,get_class_weights
 from ml_model.LSTM import createLSTMModel
 # ********* dataset path ************
 raw_dataset_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1.csv')
@@ -83,6 +83,7 @@ else:
     eprint("vectorized dataset already present. Skipping word vectorization and saving...")
 
 
+
 # make the architecture of the model.
 archPath = createLSTMModel(max_timesteps, dims, mbti_classes, model_architecture_path, 0.001)
 
@@ -118,7 +119,8 @@ model.fit_generator(
     epochs=epochs,
     verbose=1,   # progress bar
     use_multiprocessing=True,
-    callbacks=callbacks
+    callbacks=callbacks,
+    class_weight=get_class_weights()
     )
 
 
