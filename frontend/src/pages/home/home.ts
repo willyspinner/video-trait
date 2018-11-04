@@ -31,43 +31,65 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
         animate('1s')
       ])
     ]),
+      trigger('fadeInLine', [
+      state('in', style({
+        opacity: 1,
+        display: 'block'
+      })),
+      state('out', style({
+        opacity: 0,
+        display: 'none'
+      })),
+      transition('in => out', [
+        animate('.5s')
+      ]),
+      transition('out => in', [
+        animate('.5s')
+      ])
+    ]),
     trigger('slideUp', [
       state('normal', style({
-        'transform': 'translateY(0%)',
-          'font-size': '72px',
+        'transform': 'translateY(0%)'
       })),
       state('up', style({
         'transform': 'translateY(-200px)',
-          'font-size': '48px'
+          'font-size': '4em',
+          'padding-top': '200px'
       })),
         transition('normal => up', [group([
         animate('1000ms ease-out', style({
             'transform': 'translateY(-200px)',
-            'font-size': '48px',
+            'font-size': '4em',
+            'padding-top': '200px'
         }))
       ])])
     ]),
       trigger('disableBtn', [
           state('enabled', style({
-              'opacity': 1
+              'opacity': 1,
+              'transform': 'translateY(0%)'
           })),
           state('disabled', style({
-              'opacity': .4
+              'opacity': .4,
+              'transform': 'translateY(100%)'
           })),
           transition('enabled => disabled', [group([
               animate('500ms', style({
-                  'opacity': .4
+                  'opacity': .4,
+                  'transform': 'translateY(100%)'
               }))
           ])]),
           transition('disabled => enabled', [group([
               animate('500ms', style({
-                  'opacity': 1
+                  'opacity': 1,
+                  'transform': 'translateY(0%)'
               }))
           ])]),
-      ])
+      ]),
   ]})
 export class HomePage {
     showMedia: boolean = false;
+    fadeInLine = false;
     loggedIn = true;
     media: object = {
     youtube: false,
@@ -82,7 +104,8 @@ export class HomePage {
   start() {
       this.loggedIn = false;
       this.showMedia = true;
-      setTimeout(() => document.getElementById("app-title").style.borderBottom = '1px #3dbfbf solid', 1000);
+      setTimeout(() => this.fadeInLine = true, 500);
+      setTimeout(() => document.getElementById("mainBtn").textContent = 'SUBMIT', 1000);
 //      setTimeout(() => document.getElementById("app-title").style.boxShadow = '0px 10px 21px 0px rgba(0,0,0,0.75)', 1000);
   }
 

@@ -1,12 +1,16 @@
 page-home {
-    ion-content {
-        background-color: color($colors, dark) !important;
+    .scroll-content {
+        overflow: hidden;
     }
-    
+
+    ion-content {
+        background-image: linear-gradient(180.2deg, rgba(30, 33, 48, 1) 6.8%, rgba(34, 58, 70, 1) 131%);
+    }
+
     #main-cont {
         color: color($colors, txt-dark);
     }
-    
+
     #app-title {
         color: color($colors, primary);
         padding-top: 200px;
@@ -17,32 +21,86 @@ page-home {
     #intro-desc {
         font-size: 24px;
     }
-    
+
     #mediaLogins {
         position: absolute;
+        left: 25vw;
+        width: 50vw;
         top: 25vh;
-        left: 15vw;
-        width: 70vw;
         height: 50vh;
-        background-color: #050505;
-        ion-list {
+
+        h2 {
+            font-size: 2em;
+        }
+
+        .list-md {
+            border-radius: 10px !important;
+            
+            height: inherit;
+
             .item-md {
+                background-color: transparent;
+                font-size: 2.5em;
+                color: #f7f7f7;
                 //background-color: transparent;
+            }
+            
+            #youtube {
+                //color: color($colors, youtube);
+                background-image: radial-gradient( circle 700px at 10% 20%,  rgba(205,0,0,1) 0%, rgba(0,0,0,0) 80% );
+                border-radius: 20px;
+                .item-inner .input-wrapper .label {
+                    opacity: .8;
+                }
+                .checkbox {
+                    opacity: .6;
+                    height: 20px;
+                    width: 20px;
+                    margin-right: 10px;
+                }
+                .checkbox-icon {
+                    width: 100%;
+                    height: 100%;
+                }
+                
+                transition: background-image ease-in .5s;
+            }
+            
+            #youtube:hover {
+                cursor: pointer;
+                background-image: radial-gradient( circle 700px at 10% 20%,  rgba(155,0,0,1) 0%, rgba(0,0,0,0) 80% );
             }
         }
     }
-    
+
     .btn {
         color: color($colors, txt-light);
-        background-color: color($colors, btn-active);
+        //        background-image: linear-gradient( 18deg,  rgba(0,139,50,1) 5%, rgba(0,214,32,1) 121% );
+        background-image: radial-gradient(circle 775px at 50.6% -1.5%, rgba(0, 214, 32, 1) 6.2%, rgba(0, 139, 50, 1) 50.2%);
     }
-    
+
     .btn:hover {
         background-color: color($colors, btn-hover) !important;
     }
-    
+
     #mainBtn {
         height: 15vh;
         font-size: 8vh;
+    }
+
+    @media (max-width: 1023px) {
+        #app-title {
+            padding-top: 150px;
+            font-size: 4em !important;
+        }
+
+        #intro-desc {
+            font-size: 1.5em !important;
+        }
+
+        #mediaLogins {
+            left: 15vw;
+            width: 70vw;
+        }
     }
 }
