@@ -24,9 +24,11 @@ export class LoadingPage {
   ionViewDidLoad() {
     this.storage.get('youtubeToken')
     .then(token => {
-      youtubePvd.sendToken(token)
+      this.youtubePvd.sendToken(token)
       .subscribe(data => {
         console.log(data);
+        this.storage.set('result', JSON.stringify(data));
+        this.navCtrl.push('ResultPage');
       });
     });
   }
