@@ -41,6 +41,10 @@ app.get('/authUrl', (req,res)=>{
   res.status(200).send(authUrl);
 })
 
+app.get('/youtubeCallback', (req, res) => {
+  res.status(200).sendFile(__dirname + '/youtubeCallback.html');
+});
+
 app.post('/analyze', (req, res) => {
     // body:
     // req.body.token

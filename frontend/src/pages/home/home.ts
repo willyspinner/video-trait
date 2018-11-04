@@ -91,12 +91,19 @@ export class HomePage {
   }
 
   loginYoutube() {
-    //window.open("http://google.com", 'popUp', 'width=500, height=500');
-    // loading.start()
+    // loading start
     this.youtubePvd.login()
     .subscribe(data => {
       let url: string = data;
       window.open(url, 'popUp', 'width=500, height=500');
+    });
+  }
+
+  loginYoutubeCallback(code) {
+    this.youtubePvd.sendToken(code)
+    .subscribe(data => {
+      // loading stop
+      this.media.youtube = true;
     });
   }
 }
