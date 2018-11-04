@@ -89,7 +89,7 @@ app.post("/api/analyze", (req, res) => {
   }
   // body:
   // req.body.youtubeToken
-  if (req.body.youtubeToken) {
+  if (req.body.youtubeToken && !req.body.redditToken) {
     req.body.youtubeToken = req.body.youtubeToken.replace("%2F", "/");
     oauth2Client.getToken(req.body.youtubeToken, function(err, token) {
       if (err) {
