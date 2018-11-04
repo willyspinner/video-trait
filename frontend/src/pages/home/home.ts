@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import {
@@ -11,6 +11,10 @@ import {
 } from '@angular/animations';
 
 import { YoutubeProvider } from '../../providers/youtube/youtube';
+
+function _window(): any {
+  return window;
+}
 
 @Component({
   selector: 'page-home',
@@ -86,8 +90,9 @@ export class HomePage {
   redditCheck: boolean = false;
   facebookCheck: boolean = false;
 
-  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage) {
-
+  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage, private _zone: NgZone) {
+    console.log(storage);
+    storage.set('test', '123');
   }
 
   start() {
@@ -106,15 +111,24 @@ export class HomePage {
     this.youtubePvd.login()
     .subscribe(data => {
       let url: any = data;
+      let that = this;
+      let selfWindow = _window();
+
+      selfWindow.loginYoutubeCallback = function(code) {
+        that.loginYoutubeCallback.call(that, code);
+      };
+
       window.open(url, 'popUp', 'width=500, height=500');
     });
   }
 
   loginYoutubeCallback(code) {
-    console.log(code);
-    this.storage.set('youtubeToken', code);
-    this.loggedIn = true;
-    // loading stop
+    this._zone.run(() => {
+      console.log(code);
+      this.storage.set('youtubeToken', code);
+      this.loggedIn = true;
+      // loading stop
+    })
   }
 
   submit() {
