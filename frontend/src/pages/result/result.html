@@ -1,18 +1,48 @@
-<!--
-  Generated template for the ResultPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>result</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
+<ion-content text-center>
+    <div id="header">
+        <h1 id="app-title">Yourtrait</h1>
+        <hr style="position: relative; background-color: #5DDFDF" id="titleLine">
+    </div>
+    <div id="main-cont">
+        <div id="results-div">
+            <h3 style="margin-bottom: 0px !important;">Based on your social media history, you are an</h3>
+            <h1 id="result">{{result}}</h1>
+            <h3>otherwise known as a(n)</h3>
+            <h1 id="nickname">Adventurer</h1>
+            <hr style="width: 90%; background-color: #f7f7f7">
+        </div>
+        <div id="details-div">
+            <br>
+            <div class="row">
+                <div class="col">
+                    <img id="mind-icon" src="/assets/icon/favicon.ico">
+                    <p class="trait-label"><b>I</b>NTROVERTED</p>
+                    <div class="graph" id="mind"></div>
+                    <h3>Based on your online participation, you are 60% introverted!</h3>
+                    <button ion-button outline class="btn">Find out more</button>
+                </div>
+                <div class="col">
+                    <img id="energy-icon" src="/assets/icon/favicon.ico">
+                    <p class="trait-label">OB<b>S</b>ERVANT</p>
+                    <div class="graph" id="energy"></div>
+                    <h3>Based on the topics that you view and discuss, you are <h3 id="energyPercent">76% observant!</h3></h3>
+                    <button ion-button outline class="btn">Find out more</button>
+                </div>
+                <div class="col">
+                    <img id="nature-icon" src="/assets/icon/favicon.ico">
+                    <p class="trait-label"><b>F</b>EELING</p>
+                    <div class="graph" id="nature"></div>
+                    <h3>Based on your subscribed channels and writing style, you are 54% feeling!</h3>
+                    <button ion-button outline class="btn">Find out more</button>
+                </div>
+                <div class="col">
+                    <img id="tactics-icon" src="/assets/icon/favicon.ico">
+                    <p class="trait-label"><b>P</b>ROSPECTING</p>
+                    <div class="graph" id="tactics"></div>
+                    <h3>Based on the level of your internet activity, you are 55% prospecting!</h3>
+                    <button ion-button outline class="btn">Find out more</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </ion-content>
