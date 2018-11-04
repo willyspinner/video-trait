@@ -16,6 +16,24 @@ page-loading {
         padding-bottom: 10px;
         font-size: 4em;
     }
+    
+    #loading-bar {
+        position: absolute;
+        top: 22vh;
+        left: 48%;
+        zoom: 2.0;
+        * {
+        stroke: #fff !important;
+        fill: #fff !important ;
+        }
+    }
+    
+    .status-msg {
+        position: absolute;
+        top: 50vh;
+        width: 100%;
+        text-align: center;
+    }
 
     @media (max-width: 1023px) {
         

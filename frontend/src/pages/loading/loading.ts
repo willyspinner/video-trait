@@ -32,7 +32,13 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
       state('out', style({
         opacity: 0,
         display: 'none'
-      }))
+      })),
+      transition('in => out', [
+        animate('1s')
+      ]),
+      transition('out => in', [
+        animate('1s')
+      ]),
     ])
   ]
 })
@@ -40,6 +46,10 @@ export class LoadingPage {
 
   msgTimes: number[] = [0,0,0,0,0,0];
   currentMsg: number = 0;
+  minMsgTime: number = 3;
+  maxMsgTime: number = 7;
+  minTotalTime: number = 25;
+  maxTotalTime: number = 35;
   enterAnims: string[] = [
       "fadeIn",
       "fadeInDown",
@@ -79,28 +89,29 @@ export class LoadingPage {
   }
     
   randomAnim(enter) {
-      if(enter)
-          return this.enterAnims[this.randomInt(0, this.enterAnims.length)]
-      return this.exitAnims[this.randomInt(0, this.exitAnims.length)]
+      if(enter) {
+          var x = this.randomInt(0, this.enterAnims.length - 1);
+          return this.enterAnims[x]
+      }
+      return this.exitAnims[this.randomInt(0, this.exitAnims.length - 1)]
   }
     
   showNextMsg() {
       let backup: string = "";
-      if(this.currentMsg != 0) {
-          let exitAnim: string = "animated " + this.randomAnim(false);
+      if(this.currentMsg != 0 && this.currentMsg != this.msgTimes.length - 1) {
+          let exitAnim: string = " animated " + this.randomAnim(false);
           let backup: string = document.getElementById("msg" + this.currentMsg).className;
           document.getElementById("msg" + this.currentMsg).className += exitAnim;
-          document.getElementById("msg" + this.currentMsg).className = backup;
       }
       
       this.currentMsg += 1;
       
-      console.log("msg" + this.currentMsg)
+      if(this.currentMsg < this.msgTimes.length) {
       
-      let enterAnim: string = "animated " + this.randomAnim(true);
+      let enterAnim: string = " animated " + this.randomAnim(true);
       backup = document.getElementById("msg" + this.currentMsg).className;
       document.getElementById("msg" + this.currentMsg).className += enterAnim;
-      document.getElementById("msg" + this.currentMsg).className = backup;
+      }
   }
 
   generateMsgTimes() {
@@ -120,12 +131,16 @@ export class LoadingPage {
       }
   }
     
-  async startMessages() {
-      let sleep = (ms) => {          
-         return new Promise((resolve: Function) => { resolve(ms); });
-      }
-      await sleep(5000);
-      this.showNextMsg();
+  startMessages() {
+      if(this.currentMsg < this.msgTimes.length - 1) {
+          if(this.currentMsg == 0) {
+              setTimeout(() => this.showNextMsg(), 2000);
+              setTimeout(() => this.startMessages(), 2100);
+          }
+          else {
+            setTimeout(() => {this.startMessages(); this.showNextMsg(); }, this.msgTimes[this.currentMsg] * 1000);
+          }
+      } 
   }
 
   ionViewDidLoad() {
