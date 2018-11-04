@@ -149,11 +149,11 @@ app.post("/api/analyze", (req, res) => {
   }
   /* =====================================Reddit analysis================================ */
   if (req.body.redditToken) {
-      token_body = JSON.stringify({
+      token_body = {
       grant_type: "authorization_code",
       code: req.body.redditToken,
       redirect_uri: reddit_redirect
-    });
+    };
    
     fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
       "method": "post",
