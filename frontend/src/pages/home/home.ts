@@ -102,6 +102,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage, private _zone: NgZone) {
     console.log(storage);
+    storage.set('test', '123');
   }
 
   start() {
@@ -120,9 +121,12 @@ export class HomePage {
     this.youtubePvd.login()
     .subscribe(data => {
       let url: any = data;
+      let _this = this;
       let selfWindow = _window();
 
-      selfWindow.loginYoutubeCallback = this.loginYoutubeCallback;
+      selfWindow.loginYoutubeCallback = function(code) {
+        _this.loginYoutubeCallback.call(_this, code);
+      };
 
       window.open(url, 'popUp', 'width=500, height=500');
     });
