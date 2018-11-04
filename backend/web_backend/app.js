@@ -155,7 +155,7 @@ app.post("/api/analyze", (req, res) => {
       code: req.body.redditToken,
       redirect_uri: reddit_redirect
     });
-    token_response = fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
+    fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
       "method": "post",
       "headers": {},
       "body": token_body
@@ -163,42 +163,44 @@ app.post("/api/analyze", (req, res) => {
       if(error)
           console.log(error);
 
-       console.log("Here is what token gives back: " , body.toString('utf8'));    
-      return body.access_token;
+       console.log("Here is what token gives back: " , body.toString('utf8')); 
+
+       get_header = JSON.stringify({
+        "Authorization": `bearer ${authToken}`,
+        "User-Agent": "ChangeMeClient/0.1 by YourUsername"
+      });
+      fetch.fetchUrl("https://oauth.reddit.com/api/v1/me", {
+        "method": "get",
+        "headers": get_header
+      }, (error, meta, body) => {
+        if(error)
+            console.log(error);
+            console.log(token_response);
+            const authToken = token_response;
+        
+            
+            console.log(username)
+        
+            comment_header = JSON.stringify({
+              "Authorization": `bearer ${authToken}`,
+              "User-Agent": "ChangeMeClient/0.1 by YourUsername"
+            }); 
+        
+            user_comment = fetch.fetchUrl(`https://oauth.reddit.com/user/${username}/comments`,{
+              "method": "get",
+              "headers": get_header
+            }, (error, meta, body) => {
+              if(error)
+                  console.log(error);
+              return body;
+            }); 
+        
+            console.log(user_comment);
+      
+      });
+  
     });
-    console.log(token_response);
-    const authToken = token_response;
-
-    get_header = JSON.stringify({
-      "Authorization": `bearer ${authToken}`,
-      "User-Agent": "ChangeMeClient/0.1 by YourUsername"
-    });
-    username = fetch.fetchUrl("https://oauth.reddit.com/api/v1/me", {
-      "method": "get",
-      "headers": get_header
-    }, (error, meta, body) => {
-      if(error)
-          console.log(error);
-      return body;
-    });
-
-    console.log(username)
-
-    comment_header = JSON.stringify({
-      "Authorization": `bearer ${authToken}`,
-      "User-Agent": "ChangeMeClient/0.1 by YourUsername"
-    }); 
-
-    user_comment = fetch.fetchUrl(`https://oauth.reddit.com/user/${username}/comments`,{
-      "method": "get",
-      "headers": get_header
-    }, (error, meta, body) => {
-      if(error)
-          console.log(error);
-      return body;
-    }); 
-
-    console.log(user_comment);
+    
 
 
 
