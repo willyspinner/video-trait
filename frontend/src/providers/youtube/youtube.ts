@@ -22,4 +22,10 @@ export class YoutubeProvider {
     });
   }
 
+  sendToken(code: string): Observable<Object> {
+    return this.http.post(config.domain + ':' + config.port + '/analyze', {
+      token: code
+    });
+  }
+
 }
