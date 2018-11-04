@@ -58,4 +58,4 @@ if __name__ == "__main__":
     graph = tf.get_default_graph()
 
     print("running app at port ", port)
-    app.run(debug=True, port=port)
+    app.run(debug=True, port=port, use_reloader=False)
