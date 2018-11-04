@@ -125,10 +125,10 @@ export class HomePage {
 
   loginYoutubeCallback(code) {
     this._zone.run(() => {
-      console.log(code);
       this.storage.set('youtubeToken', code);
       this.loggedIn = true;
-      // loading stop
+      this.youtubeLoading = false;
+      this.youtubeCheck = true;
     })
   }
 
