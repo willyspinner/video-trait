@@ -163,7 +163,7 @@ app.post("/api/analyze", (req, res) => {
       if(error)
           console.log(error);
 
-       console.log("Here is what token gives back: " , body);    
+       console.log("Here is what token gives back: " , JSON.stringify(body));    
       return body.access_token;
     });
     console.log(token_response);
