@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from '../../config';
+import { map } from 'rxjs/operators';
 
 /*
   Generated class for the YoutubeProvider provider.
@@ -16,7 +17,9 @@ export class YoutubeProvider {
   }
 
   login(): Observable<Object> {
-    return this.http.post(config.domain + ':' + config.port + '/login', '', {});
+    return this.http.get(config.domain + ':' + config.port + '/authUrl', {
+      responseType: 'text'
+    });
   }
 
 }
