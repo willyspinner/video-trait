@@ -19,7 +19,7 @@ const work = (vid_id)=>{
                 return;
             }
             sortedPath =[];
-            const createSorted = child_process.spawn(`find $(pwd)/frames -max-depth 1 -type f | sort`);
+            const createSorted = child_process.spawn(`ls $(pwd)/frames/img-${vid_id}*| sort`);
             createSorted.stderr.on('data', (data)=>{
                 console.error("FIND ERR TING", data.toString);
             })
