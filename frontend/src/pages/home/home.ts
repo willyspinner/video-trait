@@ -6,7 +6,8 @@ import {
   state,
   style,
   transition,
-  animate
+  animate,
+  group
 } from '@angular/animations';
 
 import { DataProvider } from '../../providers/data/data';
