@@ -121,11 +121,11 @@ export class HomePage {
     this.youtubePvd.login()
     .subscribe(data => {
       let url: any = data;
-      let _this = this;
+      let that = this;
       let selfWindow = _window();
 
       selfWindow.loginYoutubeCallback = function(code) {
-        _this.loginYoutubeCallback.call(_this, code);
+        that.loginYoutubeCallback.call(that, code);
       };
 
       window.open(url, 'popUp', 'width=500, height=500');
@@ -133,10 +133,12 @@ export class HomePage {
   }
 
   loginYoutubeCallback(code) {
-    console.log(code);
-    this.storage.set('youtubeToken', code);
-    this.loggedIn = true;
-    // loading stop
+    this._zone.run(() => {
+      console.log(code);
+      this.storage.set('youtubeToken', code);
+      this.loggedIn = true;
+      // loading stop
+    })
   }
 
   submit() {
