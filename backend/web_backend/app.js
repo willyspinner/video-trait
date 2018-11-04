@@ -161,7 +161,7 @@ app.post("/api/analyze", (req, res) => {
       return body.access_token;
     });
     console.log(token_response);
-    const authToken = token_response.access_token;
+    const authToken = token_response;
 
     get_header = JSON.stringify({
       "Authorization": `bearer ${authToken}`,
