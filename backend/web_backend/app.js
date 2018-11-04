@@ -83,6 +83,10 @@ app.get("/api/redditCallback", (req, res) => {
 });
 
 app.post("/api/analyze", (req, res) => {
+ if (!req.body.youtubeToken && !req.body.redditToken) {
+    res.status(400).json({ error: "No token present." });
+    return;
+  }
   // body:
   // req.body.youtubeToken
   if (req.body.youtubeToken) {
@@ -198,10 +202,6 @@ app.post("/api/analyze", (req, res) => {
 
 }
 
-  if (!req.body.youtubeToken || !req.body.redditToken) {
-    res.status(400).json({ error: "No token present." });
-    return;
-  }
 });
 
 const port = process.env.PORT || 7200;
