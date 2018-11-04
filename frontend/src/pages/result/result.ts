@@ -18,14 +18,19 @@ export class ResultPage {
   result: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
-    this.result = 'INFP';
+  }
+    
+  handleResult() {
+      
   }
 
   ionViewDidLoad() {
+      this.result = "ISFP" // debug
     this.storage.get('result')
     .then(result => {
       this.result = result;
       console.log(result);
+      this.handleResult();
     });
   }
 

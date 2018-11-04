@@ -1,3 +1,89 @@
 page-result {
+    .scroll-content {
+    }
 
+    ion-content {
+        background-image: linear-gradient(180.2deg, rgba(30, 33, 48, 1) 6.8%, rgba(34, 58, 70, 1) 131%);
+    }
+
+    #main-cont {
+        color: color($colors, txt-dark);
+
+        #results-div {
+            width: 100vw;
+            margin: auto;
+            background-color: #122;
+            border-radius: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-image: radial-gradient(ellipse 30% 50%, #5F6775, #1F2735 50%);
+        }
+
+        #result {
+            font-size: 72px;
+            color: #e33;
+            margin: auto;
+            width: fit-content;
+            text-shadow: 0px 4px #000;
+        }
+
+        #nickname {
+            color: #e33;
+            font-size: 36px;
+            margin-top: 0;
+        }
+
+        #details-div * {
+            margin-top: 0;
+        }
+
+        #details-label {
+            font-size: 2em;
+            color: color($colors, primary);
+        }
+
+        .row {
+            width: 90%;
+            height: 300px;
+            margin: auto;
+
+            .col {
+                margin: 10px 20px 10px 20px;
+                width: 25%;
+                border-radius: 10px;
+                background-color: rgba(30,30,30,.4);
+                .graph {
+                    width: 100%;
+                    height: 50%;
+                    margin-top: -90px !important;
+                    margin-bottom: -60px !important;
+                }
+                #mind {
+                    background-image: radial-gradient(ellipse 20% 1%, color($traits, introverted), transparent 250%);
+                }
+                #energy {
+                    background-image: radial-gradient(ellipse 20% 1%, color($traits, observant), transparent 250%);
+                }
+                #nature {
+                    background-image: radial-gradient(ellipse 20% 1%, color($traits, feeling), transparent 250%);
+                }
+                #tactics {
+                    background-image: radial-gradient(ellipse 20% 1%, color($traits, prospecting), transparent 250%);
+                }
+
+                .trait-label {
+                    font-size: 1.8em;
+                    padding-top: 5px !important;
+                }
+            }
+        }
+    }
+
+    #app-title {
+        color: color($colors, primary);
+        padding-bottom: 10px;
+        font-size: 4em;
+    }
+
+    @media (max-width: 1023px) {}
 }

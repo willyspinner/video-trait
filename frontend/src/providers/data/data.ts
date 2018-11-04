@@ -37,21 +37,9 @@ export class DataProvider {
     });
   }
 
-  sendTokenYoutube(code: string): Observable<Object> {
-    return this.http.post(this.getRoute() + '/analyze', {
-      token: code
-    });
-  }
-
   loginReddit(): Observable<Object> {
     return this.http.get(this.getRoute() + '/authReddit', {
       responseType: 'text'
-    });
-  }
-
-  sendTokenReddit(code: string): Observable<Object> {
-    return this.http.post(this.getRoute() + '/analyze', {
-      token: code
     });
   }
 
@@ -67,6 +55,10 @@ export class DataProvider {
         });
       }
     });
+  }
+
+  sendTokens(tokens: object): Observable<Object> {
+    return this.http.post(this.getRoute() + '/analyze', tokens);
   }
 
 }

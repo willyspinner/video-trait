@@ -6,11 +6,16 @@ import {
   state,
   style,
   transition,
-  animate,
-  group
+  animate
 } from '@angular/animations';
 
 import { DataProvider } from '../../providers/data/data';
+
+interface Tokens {
+  youtubeToken?: string;
+  redditToken?: string;
+  facebookToken?: string;
+}
 
 /**
  * Generated class for the ResultPage page.
@@ -144,14 +149,32 @@ export class LoadingPage {
   }
 
   ionViewDidLoad() {
-      this.startMessages();
+    this.startMessages();
+
     this.storage.get('youtubeToken')
-    .then(token => {
-      this.dataPvd.sendTokenYoutube(token)
-      .subscribe(data => {
-        console.log(data);
-        this.storage.set('result', JSON.stringify(data));
-        this.navCtrl.push('ResultPage');
+    .then(youtubeToken => {
+      this.storage.get('redditToken')
+      .then(redditToken => {
+        this.storage.get('facebookToken')
+        .then(facebookToken => {
+          let tokens: Tokens = {};
+          if (youtubeToken) {
+            tokens.youtubeToken = youtubeToken;
+          }
+          if (redditToken) {
+            tokens.redditToken = redditToken;
+          }
+          if (facebookToken) {
+            tokens.facebookToken = facebookToken;
+          }
+
+          this.dataPvd.sendTokens(tokens)
+          .subscribe(data => {
+            console.log(data);
+            this.storage.set('result', data);
+            this.navCtrl.push('ResultPage');
+          });
+        });
       });
     });
   }
