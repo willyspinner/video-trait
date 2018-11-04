@@ -103,7 +103,7 @@ app.post('/api/analyze', (req, res) => {
          //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
          var video_ids = video_items.map((item)=>item.id);
          Promise.all(
-          video_ids.map((video_id)=>pool.exec('process_video',video_id))
+          video_ids.map((video_id)=>pool.exec('process_video',[video_id]))
          ).then((aggregated_gcp_output)=>{
           console.log("done. POSTing to nn server. ")
           //NOTE: aggregated_gcp_output  is an array of individual video answers.
