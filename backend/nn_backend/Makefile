@@ -1,3 +1,4 @@
+SHELL := /bin/bash
 train-dev:
 	source bin/activate && ENVIRON="dev" python3 train.py
 train-prod:
