@@ -91,6 +91,8 @@ export class HomePage {
   }
 
   loginYoutube() {
+    //window.open("http://google.com", 'popUp', 'width=500, height=500');
+    // loading.start()
     this.youtubePvd.login()
     .subscribe(data => {
       let url: string = data;
