@@ -18,6 +18,7 @@ export class ResultPage {
   result: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+    this.result = 'INFP';
   }
 
   ionViewDidLoad() {
