@@ -152,6 +152,7 @@ export class HomePage {
   loginRedditCallback(code) {
     this._zone.run(() => {
       this.storage.set('redditToken', code);
+      this.loggedIn = true;
       this.redditLoading = false;
       this.redditCheck = true;
     });
