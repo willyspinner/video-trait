@@ -164,11 +164,9 @@ export class ResultPage {
     }
 
   ionViewDidLoad() {
-      this.result = ""; // debug
     this.storage.get('result')
     .then(result => {
-      //this.result = result;
-      console.log(result);
+      this.result = result;
       this.handleResult();
     });
   }
