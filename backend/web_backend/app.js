@@ -55,7 +55,6 @@ app.get('/api/authUrl', (req,res)=>{
 
 app.get('/api/authReddit', (req, res) => {
   const authUrl = `https://www.reddit.com/api/v1/authorize?client_id=${reddit_id}&response_type=${reddit_response}&state=${reddit_state}&redirect_uri=${reddit_redirect}&duration=${reddit_duration}&scope=${reddit_scope}`;
-  console.log(authUrl);
   res.status(200).send(authUrl);
 });
 
@@ -64,7 +63,7 @@ app.get('/api/youtubeCallback', (req, res) => {
 });
 
 app.get('/api/redditCallback', (req, res) => {
-  res.status(200).sendFile(__dirname + '/youtubeCallback.html');
+  res.status(200).sendFile(__dirname + '/redditCallback.html');
 });
 
 app.post('/api/analyze', (req, res) => {

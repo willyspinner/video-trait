@@ -149,13 +149,13 @@ export class HomePage {
     });
   }
 
-loginRedditCallback(code) {
-  this._zone.run(() => {
-    this.storage.set('redditToken', code);
-    this.redditLoading = false;
-    this.redditCheck = true;
-  });
-}
+  loginRedditCallback(code) {
+    this._zone.run(() => {
+      this.storage.set('redditToken', code);
+      this.redditLoading = false;
+      this.redditCheck = true;
+    });
+  }
 
   submit() {
     this.navCtrl.push('LoadingPage');
