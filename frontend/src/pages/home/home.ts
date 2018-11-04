@@ -102,11 +102,9 @@ export class HomePage {
 
   start() {
       this.loggedIn = false;
-      this.fadeInLine = true;
       this.showMedia = true;
       setTimeout(() => this.fadeInLine = true, 500);
       setTimeout(() => document.getElementById("mainBtn").textContent = 'SUBMIT', 1000);
-//      setTimeout(() => document.getElementById("app-title").style.boxShadow = '0px 10px 21px 0px rgba(0,0,0,0.75)', 1000);
   }
 
   goTo(pageName: string) {
