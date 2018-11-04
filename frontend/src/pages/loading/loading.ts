@@ -11,6 +11,12 @@ import {
 
 import { DataProvider } from '../../providers/data/data';
 
+interface Tokens {
+  youtubeToken?: string;
+  redditToken?: string;
+  facebookToken?: string;
+}
+
 /**
  * Generated class for the ResultPage page.
  *
@@ -151,7 +157,7 @@ export class LoadingPage {
       .then(redditToken => {
         this.storage.get('facebookToken')
         .then(facebookToken => {
-          let tokens = {};
+          let tokens: Tokens;
           if (youtubeToken) {
             tokens.youtubeToken = youtubeToken;
           }
