@@ -9,6 +9,8 @@ var readline = require('readline');
 var {google} = require('googleapis');
 var OAuth2 = google.auth.OAuth2;
 
+// Imports the Google Cloud client library
+const vision = require('@google-cloud/vision');
 
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());       // to support JSON-encoded bodies
@@ -21,7 +23,7 @@ let clientSecret, clientId, redirectUrl, oauth2Client;
 /* ==============================================Youtube Auth============================================= */
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/youtube-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
+var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly', 'https://www.googleapis.com/auth/cloud-platform'];
 
 let content = fs.readFileSync('client_secret.json');
 const credentials = JSON.parse(content);
@@ -56,13 +58,30 @@ app.post('/analyze', (req, res) => {
       'part': 'contentDetails', 'maxResults': '20'}} 
       /* insert youtube API specific req data here */
     ).then((video_items)=>{
-        console.log(video_items)
-        var video_ids = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
-        var numchild  = require('os').cpus().length;
+        // var video_ids = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
 
-        for (var i = 0; i < video_ids.length ; i++){
-            exec(`./ytdl.sh ${video_ids[i]}`) 
-        }
+        // for (var i = 0; i < video_ids.length ; i++){
+        //     exec(`./ytdl.sh ${video_ids[i]}`) 
+        // }
+
+        // Creates a client
+        console.log(video_items);        
+        const client = new vision.ImageAnnotatorClient();
+
+        client
+        .labelDetection('./ZfqmFfN.jpg')
+        .then(results => {
+          const labels = results[0].labelAnnotations;
+
+        console.log('Labels:');
+        labels.forEach(label => console.log(label.description));
+        })
+        .catch(err => {
+          console.error('ERROR:', err);
+        });
+
+
+
 
 
     }).catch((err)=>{
