@@ -100,7 +100,9 @@ app.post('/api/analyze', (req, res) => {
         console.log(`got ${video_items.length} rated video${video_items.length > 0 ? "s":""}. Downloading videos,extracting frames, and GCP....`)
          //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
          var video_ids = video_items.map((item)=>item.id);
-        pool.exec('process_video',video_ids).then((aggregated_gcp_output)=>{
+         Promise.all(
+          video_ids.map((video_id)=>pool.exec('process_video',video_id))
+         ).then((aggregated_gcp_output)=>{
           console.log("done. POSTing to nn server. ")
           //NOTE: aggregated_gcp_output  is an array of individual video answers.
           request.post("http://localhost:9500/analyze", {
