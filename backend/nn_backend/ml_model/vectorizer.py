@@ -34,10 +34,33 @@ def get_vector(word, dims):
         vec = np.zeros(dims)
     return vec
 
+def vectorize_dataset_words ( sentence_str,max_timesteps, dims):
+    words = sentence_str.split(',"')[1].split(" ")[1:-1][:max_timesteps] # tokenization by space.
+
+    # filter out punctuation
+    table = str.maketrans('', '', string.punctuation)
+    words = [w.translate(table) for w in words]
+
+    # remove capitalizations.
+    words = [word.lower() for word in words]
+
+    # TODO: clean it up more here?
+    # https://machinelearningmastery.com/clean-text-machine-learning-python/
+    # vectorize it here.
+
+    x = np.row_stack(tuple([get_vector(word, dims) for word in words]))
+    # x is timesteps x dims. Yes: wv is a dim dimensional vector.
+    if x.shape[1] != dims:
+        eprint("ERROR! x columns doesn't equal dims.")
+        exit(1)
+    if x.shape[0] < max_timesteps:
+        x = np.vstack((x, np.zeros((max_timesteps-x.shape[0], 200))))
+    eprint("vectorize_words: shape of x (timesteps x dims): ", x.shape)
+
+    return x
 
 def vectorize_words(sentence_str, max_timesteps, dims):
-    # TODO: dims and max_timesteps.
-    words = sentence_str.split(',"')[1].split(" ")[1:-1][:max_timesteps] # tokenization by space.
+    words = sentence_str.split(' ')
 
     # filter out punctuation
     table = str.maketrans('', '', string.punctuation)

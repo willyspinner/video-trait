@@ -1,22 +1,24 @@
 # THIS FILE initializes and trains the model - saves weights and architecture as json, 
 # to be loaded later
+from dotenv import load_dotenv
+load_dotenv("config.env")
 from os import path
 import sys
 import h5py
+import os
 from keras.models import model_from_json
+from keras.callbacks import ReduceLROnPlateau
 import numpy as np
 from keras import optimizers
 from ml_model.PersonalityVector import to_numpy_class_vector
 from ml_model.LSTM import createLSTMModel
-from keras.callbacks import ReduceLROnPlateau
-import os
 # ********* dataset path ************
 raw_dataset_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1.csv')
 vectorized_dataset_X_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1_vectorized_X.h5')
 vectorized_dataset_Y_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1_vectorized_Y.h5')
 # ********* config ************
-max_timesteps = 40 # words
-dims = 200
+max_timesteps = int(os.environ["max_timesteps"])#40 # words
+dims = int(os.environ["dims"])#200
 mbti_classes = 16
 num_datapoints = 0
 if os.environ["ENVIRON"] == "production":
@@ -25,11 +27,13 @@ else:
     num_datapoints = 100
 
 # ********* tuning ************
-traintest_split = 0.8 # train test split
-learning_rate = 0.1
-epochs=10
-steps_per_epoch=6000
-batch_size = 1 # TODO: accommodate batch_size
+traintest_split = float(os.environ["traintest_split"]) #0.8 # train test split
+learning_rate = float(os.environ["learning_rate"])#0.1
+epochs= int(os.environ["epochs"])#10
+steps_per_epoch = 10
+if os.environ["ENVIRON"] == "production":
+    steps_per_epoch =int( os.environ["steps_per_epoch"]) #6000
+batch_size = int(os.environ["batch_size"])#1  # TODO: accommodate batch_size
 
 # ********* weights and arch ************
 weights_path = path.join(path.dirname(path.abspath(__file__)), 'ml_model', 'weights')
@@ -44,7 +48,7 @@ def eprint(*args, **kwargs):
 
 # *****************  generate vectorized ndarray of dataset if not exists. *******************
 if not (path.isfile(vectorized_dataset_X_path) and path.isfile(vectorized_dataset_Y_path)):
-    from ml_model.vectorizer import vectorize_words
+    from ml_model.vectorizer import vectorize_dataset_words
     # make the data here. vectorize it
     X_dset = None
     Y_dset = None
@@ -63,7 +67,7 @@ if not (path.isfile(vectorized_dataset_X_path) and path.isfile(vectorized_datase
                     continue
                 y = to_numpy_class_vector(personality)
                 # now find x. should have dims: n of words (rows) x dim (columns).
-                x = vectorize_words(line, max_timesteps, dims)
+                x = vectorize_dataset_words(line, max_timesteps, dims)
                 X_dset[count, :, :] = x
                 Y_dset[count] = y
                 eprint("done processing line ", count, "out of ", num_datapoints)
@@ -106,7 +110,7 @@ adamax = optimizers.Adamax(lr=learning_rate)
 model.compile(loss='binary_crossentropy', #categorical_crossentropy
                    optimizer=adamax,#'adadelta',
                    metrics=['accuracy'])
-callbacks = [ReduceLROnPlateau(monitor='accuracy', factor=0.2,
+callbacks = [ReduceLROnPlateau(monitor='acc', factor=0.2,
     patience=3, min_lr=0.001)]
 model.fit_generator(
     generator(is_train=True, split=traintest_split),
