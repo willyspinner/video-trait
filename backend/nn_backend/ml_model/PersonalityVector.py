@@ -1,43 +1,45 @@
 import numpy as np
+"""
+prefix: ES EN IS IN
+suffix: TJ TP FP FJ 
+"""
+
+arr = [a+b for a in ["ES","EN","IS","IN"] for b in ["TJ","TP","FP","FJ"]]
 def output_0_ne_idx(i, idx):
     if idx != i:
         return 0
     else:
         return 1
 
+def to_personality(npClassVector):
+    maxIdx= 0
+    max=0
+    oneIdx = 0
+    for i in range(npClassVector.shape[1]):
+        if npClassVector[0,i] > max:
+            maxIdx = i
+            max= npClassVector[0,i]
+       # return highest confidence
+    return arr[maxIdx]
+
+
+
+
+
+
+
 def to_numpy_class_vector(personality):
-    arr = []
-    """
-    prefix: ES EN IS IN 
-    suffix: TJ TP FP FJ 
-    """
     prefix = personality[:2]
     suffix = personality[2:]
+    idx = 0
     if len(suffix) != 2:
         print("ERROR - personality has more than 4 letters:",personality)
         exit(1)
-    multiplier_4 = -1
-    unit = -1
-    if prefix == "ES":
-        multiplier_4 = 3
-    elif prefix == "EN":
-        multiplier_4 = 2
-    elif prefix == "IS":
-        multiplier_4 = 1
-    elif prefix == "IN":
-        multiplier_4 = 0
-    if suffix == "TJ":
-        unit = 3
-    elif suffix == "TP":
-        unit = 2
-    elif suffix == "FP":
-        unit = 1
-    elif suffix == "FJ":
-        unit = 0
-    if multiplier_4 == -1 or unit == -1:
-        print("ERROR - personality has invalid qualifiers:",personality)
+    try:
+        idx = arr.index(prefix+suffix)
+    except:
+        print("ERROR - personality Doesn't exist:", personality)
         exit(1)
-    idx = (multiplier_4 * 4) + unit
     return np.array([output_0_ne_idx(x, idx) for x in range(16)])
 
 
