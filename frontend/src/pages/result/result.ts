@@ -24,6 +24,7 @@ export class ResultPage {
     this.storage.get('result')
     .then(result => {
       this.result = result;
+      console.log(result);
     });
   }
 
