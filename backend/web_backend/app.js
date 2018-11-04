@@ -32,7 +32,9 @@ let clientSecret, clientId, redirectUrl, oauth2Client;
 
 
 // our worker pool for downloading and processing videos
-const pool = workerpool.pool(path.join(__dirname,"downloader_worker.js"));
+const pool = workerpool.pool(path.join(__dirname,"downloader_worker.js"), {
+  minWorkers: 'max'
+});
 /* ==============================================Youtube Auth============================================= */
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/youtube-nodejs-quickstart.json
