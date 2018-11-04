@@ -9,19 +9,24 @@ import { Storage } from '@ionic/storage';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+@IonicPage({
+  name: 'page-result',
+  segment: 'result/:id'
+})
 @Component({
   selector: 'page-result',
   templateUrl: 'result.html',
 })
 export class ResultPage {
+  id: string;
   result: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
+    this.id = navParams.data.id;
   }
-    
+
   handleResult() {
-      
+
   }
 
   ionViewDidLoad() {
