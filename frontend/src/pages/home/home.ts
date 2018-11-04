@@ -58,11 +58,7 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
           'padding-top': '200px'
       })),
         transition('normal => up', [group([
-        animate('1000ms ease-out', style({
-            'transform': 'translateY(-200px)',
-            'font-size': '4em',
-            'padding-top': '200px'
-        }))
+        animate('1000ms ease-out')
       ])])
     ]),
       trigger('disableBtn', [
@@ -75,16 +71,10 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
               'transform': 'translateY(100%)'
           })),
           transition('enabled => disabled', [group([
-              animate('500ms', style({
-                  'opacity': .4,
-                  'transform': 'translateY(100%)'
-              }))
+              animate('500ms')
           ])]),
           transition('disabled => enabled', [group([
-              animate('500ms', style({
-                  'opacity': 1,
-                  'transform': 'translateY(0%)'
-              }))
+              animate('500ms')
           ])]),
       ]),
   ]})
