@@ -15,7 +15,7 @@ raw_dataset_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'm
 vectorized_dataset_X_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1_vectorized_X.h5')
 vectorized_dataset_Y_path = path.join(path.dirname(path.abspath(__file__)), 'dataset', 'mbti_1_vectorized_Y.h5')
 # ********* config ************
-max_timesteps = 30 # words
+max_timesteps = 40 # words
 dims = 200
 mbti_classes = 16
 num_datapoints = 0
@@ -28,7 +28,8 @@ else:
 traintest_split = 0.8 # train test split
 learning_rate = 0.1
 epochs=10
-steps_per_epoch=10
+steps_per_epoch=6000
+batch_size = 1 # TODO: accommodate batch_size
 
 # ********* weights and arch ************
 weights_path = path.join(path.dirname(path.abspath(__file__)), 'ml_model', 'weights')
@@ -85,7 +86,7 @@ archPath = createLSTMModel(max_timesteps, dims, mbti_classes, model_architecture
 # *****************  train it using dataset  *******************
 indices = [i for i in range(0, num_datapoints)]
 np.random.shuffle(indices)
-def generator(is_train=True, split=0.8):
+def generator(is_train=True, split=0.8 ):
     X = h5py.File(vectorized_dataset_X_path, "r")
     Y = h5py.File(vectorized_dataset_Y_path, "r")
     low_bound = 0
