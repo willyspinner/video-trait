@@ -14,7 +14,7 @@
         <div id="mediaLogins" [@fadeInOut]="showMedia ? 'in' : 'out'">
             <h2>Provide your social media accounts:</h2>
             <ion-list>
-                <ion-item (click)="loginYoutube()">
+                <ion-item (click)="loginYoutube()" id="youtube">
                     <ion-label>Login to YouTube</ion-label>
                     <ion-checkbox [(ngModel)]="youtubeCheck" disabled></ion-checkbox>
                 </ion-item>
