@@ -70,11 +70,9 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
 export class HomePage {
   showMedia: boolean = false;
   loggedIn: boolean = true;
-  media: object = {
-    youtube: false,
-    reddit: false,
-    facebook: false
-  };
+  youtubeCheck: boolean = false;
+  redditCheck: boolean = false;
+  facebookCheck: boolean = false;
 
   constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage) {
 
