@@ -113,24 +113,14 @@ export class ResultPage {
       document.getElementById("tactics").querySelector('.trait-label').innerHTML = this.prospecting ? "<b>P</b>ROSPECTING" : "<b>J</b>UDGING";
 
       if(this.id == -1) {
-      this.storage.get("facebookToken").then(fbTok => {this.storage.get("youtubeToken").then(youtubeTok => {this.storage.get("redditToken").then(redditTok => {
 
-      var res = (Math.random() * 30000) + 10;
-      if(fbTok != null)
-          for(var x = 0; x < 6; x++)
-              res += fbTok[x].charCodeAt(0) * Math.pow(10,x);
-      if(youtubeTok != null)
-          for(var x = 0; x < 6; x++)
-              res += youtubeTok[x].charCodeAt(0) * Math.pow(10,x);
-      if(redditTok != null)
-          for(var x = 0; x < 6; x++)
-              res += redditTok[x].charCodeAt(0) * Math.pow(10,x);
+      var res = 30000;
       var x = (this.introvert ? 8 : 0) + (this.observant ? 4 : 0) + (this.feeling ? 2 : 0) + (this.prospecting ? 1 : 0);
       this.seed = parseInt(res.toString() + (parseInt(res.toString().substring(0,2)) + x).toString());
           var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '#result/' + this.seed.toString();
           window.history.pushState({path:newurl},'',newurl);
           window.location.reload(true);
-      })})})
+      
       } else {
           if(this.seed != this.id) {
           this.seed = this.id;
