@@ -83,6 +83,10 @@ app.get("/api/redditCallback", (req, res) => {
 });
 
 app.post("/api/analyze", (req, res) => {
+  if (!req.body.youtubeToken && !req.body.redditToken) {
+    res.status(400).json({ error: "No token present." });
+    return;
+  }
   // body:
   // req.body.youtubeToken
   if (req.body.youtubeToken) {
@@ -130,6 +134,7 @@ app.post("/api/analyze", (req, res) => {
                     return;
                   }
                   res.status(200).send(body);
+		  return;
                 }
               );
             })
@@ -142,7 +147,7 @@ app.post("/api/analyze", (req, res) => {
           res.status(500).json({ error: "Youtube API error." });
         });
     });
-  }
+  }else
 
   if (req.body.redditToken) {
     token_body = JSON.stringify({
@@ -161,6 +166,7 @@ app.post("/api/analyze", (req, res) => {
     });
     console.log(token_response);
     const authToken = token_response;
+
 
     get_header = JSON.stringify({
       "Authorization": `bearer ${authToken}`,
@@ -184,12 +190,8 @@ app.post("/api/analyze", (req, res) => {
   }
 
 
-
-  if (!req.body.youtubeToken || !req.body.redditToken) {
-    res.status(400).json({ error: "No token present." });
-    return;
-  }
 });
+
 
 const port = process.env.PORT || 7200;
 app.listen(port);
