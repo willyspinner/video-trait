@@ -61,9 +61,10 @@ export class DataProvider {
       if (response.status === 'connected') {
         return cb(response);
       } else {
-        this.fb.login((response: LoginResponse) => {
+        this.fb.login()
+        .then((response: LoginResponse) => {
           return cb(response);
-        })
+        });
       }
     });
   }
