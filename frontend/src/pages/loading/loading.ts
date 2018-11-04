@@ -172,7 +172,9 @@ export class LoadingPage {
           .subscribe(data => {
             console.log(data);
             this.storage.set('result', data);
-            this.navCtrl.push('ResultPage');
+            this.navCtrl.push('ResultPage', {
+              'id': ''
+            });
           });
         });
       });
