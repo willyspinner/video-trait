@@ -5,6 +5,11 @@ const child_process =require('child_process');
 const work = (vid_id)=>{
     return new Promise((resolve,reject)=>{
         let work_process = child_process.spawn("./ytdl.sh",[vid_id]);
+        work_process.on('error', (err)=>{
+            console.log(err);
+            reject(err);
+            return;
+        })
         work_process.on('close',(code)=>{
             if (code !== 0){
                 //handle here.
@@ -31,7 +36,7 @@ const work = (vid_id)=>{
             })
     })
     })
-}
+};
 workerpool.worker({
     process_video: work
 })

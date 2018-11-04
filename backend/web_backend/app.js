@@ -94,8 +94,8 @@ app.post('/api/analyze', (req, res) => {
       console.log("listing rated videos...")
       videosListMyRatedVideos(oauth2Client,
         {'params': {'myRating': 'like',
-      'part': 'contentDetails', 'maxResults': '20'}}
-      /* insert youtube API specific req data here */
+      'part': 'contentDetails', 'maxResults': '3'}}
+      /* insert youtube API specific req data h3re */
     ).then((video_items)=>{
         console.log("got rated videos. Downloading videos,extracting frames, and GCP....")
          //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
