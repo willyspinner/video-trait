@@ -166,7 +166,7 @@ app.post("/api/analyze", (req, res) => {
       "Authorization": `bearer ${authToken}`,
       "User-Agent": "ChangeMeClient/0.1 by YourUsername"
     });
-    request_comment = fetch.fetchUrl("https://oauth.reddit.com/api/v1/me", {
+    username = fetch.fetchUrl("https://oauth.reddit.com/api/v1/me", {
       "method": "get",
       "headers": get_header
     }, (error, meta, body) => {
@@ -174,6 +174,10 @@ app.post("/api/analyze", (req, res) => {
           console.log(error);
       return body;
     });
+
+    //user_comment = fetch.fetchUrl("https://oauth.reddit.com/us")
+
+
     console.log(request_comment);
 
 
