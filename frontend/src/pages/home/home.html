@@ -1,32 +1,31 @@
-<ion-content padding text-center>
-  <h1>App Name</h1>
+<ion-content text-center>
+    <div id="main-cont">
+        <h1 [@slideUp]="showMedia ? 'up' : 'normal'" id="app-title">Yourtrait</h1>
+        <hr [@fadeInLine]="fadeInLine ? 'in' : 'out'" style="position: relative; top: -200px; background-color: #5DDFDF" id="titleLine">
 
-  <!-- Intro Page -->
-  <div [@fadeInOut]="showMedia ? 'out' : 'in'">
-    <p>Insert some <br>description here.</p>
-  </div>
-
-  <!-- Intro Page (After Start) -->
-  <div [@fadeInOut]="showMedia ? 'in' : 'out'">
-    <ion-list>
-      <ion-item (click)="goTo('Youtube')">
-        <ion-label>YouTube</ion-label>
-        <ion-checkbox [(ngModel)]="media.youtube" disabled></ion-checkbox>
-      </ion-item>
-      <ion-item (click)="goTo('Reddit')">
-        <ion-label>Reddit</ion-label>
-        <ion-checkbox [(ngModel)]="media.reddit" disabled></ion-checkbox>
-      </ion-item>
-      <ion-item (click)="goTo('Facebook')">
-        <ion-label>Facebook</ion-label>
-        <ion-checkbox [(ngModel)]="media.facebook" disabled></ion-checkbox>
-      </ion-item>
-    </ion-list>
-  </div>
+        <!-- Intro Page -->
+        <div [@fadeInOut]="showMedia ? 'out' : 'in'">
+            <p id="intro-desc"><i>Determine your Myers-Brigg personality through social media analysis</i></p>
+            <br>
+            <h3><a target="_blank" href="">What is a Myers-Brigg personality?</a></h3>
+            <br>
+            <h3><a target="_blank" href="">GitHub repository</a></h3>
+        </div>
+        <div id="mediaLogins" [@fadeInOut]="showMedia ? 'in' : 'out'">
+            <h2>Provide your social media accounts:</h2>
+            <ion-list>
+                <br>
+                <ion-item (click)="loginYoutube()" id="youtube">
+                    <ion-label>Login to YouTube</ion-label>
+                    <ion-checkbox [(ngModel)]="youtubeCheck" disabled></ion-checkbox>
+                </ion-item>
+            </ion-list>
+        </div>
+    </div>
 </ion-content>
 
 <ion-footer no-border>
-  <button (click)="showMedia ? submit() : start()" ion-button large full class="no-margin">
-    {{ showMedia ? 'SUBMIT' : 'START'}}
-  </button>
+    <button [disabled]="!loggedIn" (click)="showMedia ? submit() : start()" ion-button large full class="btn no-margin" id="mainBtn" color="btn" [@disableBtn]="loggedIn ? 'enabled' : 'disabled'">
+        START
+    </button>
 </ion-footer>

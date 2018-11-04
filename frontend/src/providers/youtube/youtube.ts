@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { config } from '../../config';
 
 /*
   Generated class for the YoutubeProvider provider.
@@ -12,11 +13,26 @@ import { Observable } from 'rxjs';
 export class YoutubeProvider {
 
   constructor(public http: HttpClient) {
-    console.log('Hello YoutubeProvider Provider');
+  }
+
+  getRoute(): string {
+    if (config.prod) {
+      return config.domain + '/api';
+    } else {
+      return 'http://localhost:' + config.port;
+    }
   }
 
   login(): Observable<Object> {
-    return this.http.post('/login', '', {});
+    return this.http.get(this.getRoute() + '/authUrl', {
+      responseType: 'text'
+    });
+  }
+
+  sendToken(code: string): Observable<Object> {
+    return this.http.post(this.getRoute() + '/analyze', {
+      token: code
+    });
   }
 
 }

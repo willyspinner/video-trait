@@ -1,5 +1,6 @@
-//export GOOGLE_APPLICATION_CREDENTIALS="./calhacks.json"
-const express = require('express'); 
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
 const app = express();
 const workerpool = require('workerpool')
 const path = require('path');
@@ -19,6 +20,8 @@ var OAuth2 = google.auth.OAuth2;
 const vision = require('@google-cloud/vision');
 
 const bodyParser = require('body-parser')
+app.use(morgan('tiny'));
+app.use(cors());
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -38,10 +41,10 @@ let content = fs.readFileSync('client_secret.json');
 const credentials = JSON.parse(content);
 clientSecret = credentials.web.client_secret;
 clientId = credentials.web.client_id;
-redirectUrl = credentials.web.redirect_uri; 
+redirectUrl = credentials.web.redirect_uri;
 oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
 
-app.get('/authUrl', (req,res)=>{
+app.get('/api/authUrl', (req,res)=>{
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: SCOPES
@@ -49,13 +52,18 @@ app.get('/authUrl', (req,res)=>{
   res.status(200).send(authUrl);
 })
 
-app.post('/analyze', (req, res) => {
+app.get('/api/youtubeCallback', (req, res) => {
+  res.status(200).sendFile(__dirname + '/youtubeCallback.html');
+});
+
+app.post('/api/analyze', (req, res) => {
     // body:
     // req.body.token
     if(!req.body.token){
         res.status(400).json({"error":"No token present."});
         return;
     }
+    req.body.token = req.body.token.replace('%2F', '/');
     oauth2Client.getToken(req.body.token, function(err, token) {
       if (err) {
         res.status(400).json({"error":"token error."});
@@ -79,7 +87,7 @@ app.post('/analyze', (req, res) => {
         console.error(err);
         res.status(500).json({"error":"Youtube API error."});
     })
-    
+
  })
 });
 
