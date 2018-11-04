@@ -17,7 +17,7 @@ const work = (vid_id)=>{
                 return;
             }
             sortedPath =[];
-            const createSorted = spawn(`find $(pwd)/frames -max-depth 1 -type f | sort`);
+            const createSorted = child_process.spawn(`find $(pwd)/frames -max-depth 1 -type f | sort`);
             createSorted.stdout.on('data', (filepath)=>{
                 sortedPath.append(filepath.toString);
             })

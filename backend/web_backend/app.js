@@ -97,7 +97,7 @@ app.post('/api/analyze', (req, res) => {
       'part': 'contentDetails', 'maxResults': '3'}}
       /* insert youtube API specific req data h3re */
     ).then((video_items)=>{
-        console.log("got rated videos. Downloading videos,extracting frames, and GCP....")
+        console.log(`got ${video_items.length} rated video${video_items.length > 0 ? "s":""}. Downloading videos,extracting frames, and GCP....`)
          //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
          var video_ids = video_items.map((item)=>item.id);
         pool.exec('process_video',video_ids).then((aggregated_gcp_output)=>{
