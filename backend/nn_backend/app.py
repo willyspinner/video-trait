@@ -1,22 +1,39 @@
 #!/usr/bin/env python3
 # check https://scotch.io/bar-talk/processing-incoming-request-data-in-flask
 # for more details.
+import json
 from dotenv import load_dotenv
+
 load_dotenv("config.env")
 from flask import Flask
 import tensorflow as tf
 from flask import request
 from ml_model import vectorizer, PersonalityVector
+from multiprocessing import Pool
+import numpy as np
 import sys
 import os
 from keras.models import model_from_json
-graph=None
+from functools import reduce
+graph = None
 app = Flask(__name__)
 model = None
 port = 9500
 max_timesteps = int(os.environ["max_timesteps"])
 dims = int(os.environ["dims"])
-@app.route ("/analyze", methods=['POST'])
+
+
+# takes in a sentence and outputs the probabilities in each class (vector)
+def worker(sentence):
+    x = vectorizer.vectorize_words(sentence, max_timesteps, dims)
+    x = x.reshape(1, x.shape[0], x.shape[1])
+    print("perdicting sentence: ", sentence)
+    result = model.predict(x)  # batch_size=1 , verbose=1)
+    print("perdiction done")
+    return result
+
+
+@app.route("/analyze", methods=['POST'])
 def handler():
     print("analyzing")
     if model is None:
@@ -24,23 +41,24 @@ def handler():
     else:
         global graph
         with graph.as_default():
-            wordstring = str(request.get_data())
-            # x needs to be timesteps x dims.
-            print("wordstring", wordstring)
-            x = vectorizer.vectorize_words(wordstring, max_timesteps, dims)
-            print("here ting: x dims before: ", x.shape)
-            x = x.reshape(1, x.shape[0],x.shape[1])
-            print("here ting: x dims : ", x.shape)
-            result = model.predict(x,) #batch_size=1 , verbose=1)
-            print('got result: ',result, "with shape: ",result.shape);
-            personality = PersonalityVector.to_personality(result)
+            sentences = request.get_json(force=True)
+            print("type of sentences: ", type(sentences))
+            print("len : ", len(sentences))
+            result_vec = np.zeros((1, 16))
+            for sentence in sentences:
+                x = vectorizer.vectorize_words(sentence, max_timesteps, dims)
+                x = x.reshape(1, x.shape[0], x.shape[1])
+                print("perdicting sentence: ", sentence)
+                result = model.predict(x)  # batch_size=1 , verbose=1)
+                result_vec += result
+            personality = PersonalityVector.to_personality(result_vec)
             print("got personality: ", personality)
             return personality
 
 
 if __name__ == "__main__":
-    archPath=""
-    weightsPath=""
+    archPath = ""
+    weightsPath = ""
     if len(sys.argv) > 0:
         archPath = sys.argv[1]
     if len(sys.argv) > 1:
@@ -58,4 +76,4 @@ if __name__ == "__main__":
     graph = tf.get_default_graph()
 
     print("running app at port ", port)
-    app.run(debug=True, port=port, use_reloader=False)
+    app.run(debug=(True if os.environ["ENVIRON"] != "production" else False), port=port, use_reloader=False)

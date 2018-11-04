@@ -5,7 +5,7 @@ const app = express();
 const workerpool = require('workerpool')
 const path = require('path');
 const { spawn } = require('child_process');
-var request = require('request';)
+var request = require('request');
 require('dotenv').config({path: path.join(__dirname,"settings.env")})
 //var exec = require('child_process').exec;
 //var worker = require('child_process');
@@ -79,26 +79,29 @@ app.get('/api/redditCallback', (req, res) => {
 
 app.post('/api/analyze', (req, res) => {
     // body:
-    // req.body.token
-    if(!req.body.token){
+    // req.body.youtubeToken
+    if(!req.body.youtubeToken){
         res.status(400).json({"error":"No token present."});
         return;
     }
-    req.body.token = req.body.token.replace('%2F', '/');
-    oauth2Client.getToken(req.body.token, function(err, token) {
+    req.body.youtubeToken = req.body.youtubeToken.replace('%2F', '/');
+    oauth2Client.getToken(req.body.youtubeToken, function(err, token) {
       if (err) {
         res.status(400).json({"error":"token error."});
         return;
       }
       oauth2Client.credentials = token;
+      console.log("listing rated videos...")
       videosListMyRatedVideos(oauth2Client,
         {'params': {'myRating': 'like',
-      'part': 'contentDetails', 'maxResults': '20'}}
-      /* insert youtube API specific req data here */
+      'part': 'contentDetails', 'maxResults': '3'}}
+      /* insert youtube API specific req data h3re */
     ).then((video_items)=>{
+        console.log(`got ${video_items.length} rated video${video_items.length > 0 ? "s":""}. Downloading videos,extracting frames, and GCP....`)
          //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
          var video_ids = video_items.map((item)=>item.id);
         pool.exec('process_video',video_ids).then((aggregated_gcp_output)=>{
+          console.log("done. POSTing to nn server. ")
           //NOTE: aggregated_gcp_output  is an array of individual video answers.
           request.post("http://localhost:9500/analyze", {
             json: aggregated_gcp_output
