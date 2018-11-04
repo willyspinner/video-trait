@@ -83,10 +83,6 @@ app.get("/api/redditCallback", (req, res) => {
 });
 
 app.post("/api/analyze", (req, res) => {
-  if (!req.body.youtubeToken && !req.body.redditToken) {
-    res.status(400).json({ error: "No token present." });
-    return;
-  }
   // body:
   // req.body.youtubeToken
   if (req.body.youtubeToken) {
@@ -134,7 +130,6 @@ app.post("/api/analyze", (req, res) => {
                     return;
                   }
                   res.status(200).send(body);
-		  return;
                 }
               );
             })
@@ -147,8 +142,8 @@ app.post("/api/analyze", (req, res) => {
           res.status(500).json({ error: "Youtube API error." });
         });
     });
-  }else
-
+  }
+  /* =====================================Reddit analysis================================ */
   if (req.body.redditToken) {
     token_body = JSON.stringify({
       grant_type: "authorization_code",
@@ -167,7 +162,6 @@ app.post("/api/analyze", (req, res) => {
     console.log(token_response);
     const authToken = token_response;
 
-
     get_header = JSON.stringify({
       "Authorization": `bearer ${authToken}`,
       "User-Agent": "ChangeMeClient/0.1 by YourUsername"
@@ -181,17 +175,34 @@ app.post("/api/analyze", (req, res) => {
       return body;
     });
 
-    //user_comment = fetch.fetchUrl("https://oauth.reddit.com/us")
+    console.log(username)
+
+    comment_header = JSON.stringify({
+      "Authorization": `bearer ${authToken}`,
+      "User-Agent": "ChangeMeClient/0.1 by YourUsername"
+    }); 
+
+    user_comment = fetch.fetchUrl(`https://oauth.reddit.com/user/${username}/comments`,{
+      "method": "get",
+      "headers": get_header
+    }, (error, meta, body) => {
+      if(error)
+          console.log(error);
+      return body;
+    }); 
+
+    console.log(user_comment);
 
 
-    console.log(request_comment);
 
 
+}
+
+  if (!req.body.youtubeToken || !req.body.redditToken) {
+    res.status(400).json({ error: "No token present." });
+    return;
   }
-
-
 });
-
 
 const port = process.env.PORT || 7200;
 app.listen(port);
