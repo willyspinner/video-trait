@@ -101,7 +101,7 @@ export class HomePage {
   facebookCheck: boolean = false;
 
   constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage, private _zone: NgZone) {
-
+    console.log(storage);
   }
 
   start() {
