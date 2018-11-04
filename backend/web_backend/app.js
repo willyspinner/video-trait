@@ -155,6 +155,10 @@ app.post("/api/analyze", (req, res) => {
       "method": "post",
       "headers": {},
       "body": token_body
+    }, (error, meta, body) => {
+      if(error)
+          console.log(error);
+      return body.access_token;
     });
     console.log(token_response);
     const authToken = token_response.access_token;
@@ -166,6 +170,10 @@ app.post("/api/analyze", (req, res) => {
     request_comment = fetch,fetchUrl("https://oauth.reddit.com/api/v1/me", {
       "method": "get",
       "headers": get_headers
+    }, (error, meta, body) => {
+      if(error)
+          console.log(error);
+      return body.access_token;
     });
     console.log(request_comment);
   }
