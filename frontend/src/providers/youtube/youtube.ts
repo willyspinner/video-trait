@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { config } from '../../config';
-import { map } from 'rxjs/operators';
 
 /*
   Generated class for the YoutubeProvider provider.
