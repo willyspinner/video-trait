@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import {
   trigger,
   state,
@@ -75,7 +76,7 @@ export class HomePage {
     facebook: false
   };
 
-  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider) {
+  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage) {
 
   }
 
@@ -94,16 +95,17 @@ export class HomePage {
     // loading start
     this.youtubePvd.login()
     .subscribe(data => {
-      let url: string = data;
+      let url: any = data;
       window.open(url, 'popUp', 'width=500, height=500');
     });
   }
 
   loginYoutubeCallback(code) {
-    this.youtubePvd.sendToken(code)
-    .subscribe(data => {
-      // loading stop
-      this.media.youtube = true;
-    });
+    this.storage.set('youtubeToken', code);
+    // loading stop
+  }
+
+  submit() {
+    // go to result page
   }
 }
