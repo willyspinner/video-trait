@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 import {
   trigger,
   state,
@@ -88,21 +89,20 @@ import { YoutubeProvider } from '../../providers/youtube/youtube';
       ]),
   ]})
 export class HomePage {
-    showMedia: boolean = false;
+  showMedia: boolean = false;
     fadeInLine: boolean = false;
-    loggedIn: boolean = true;
-    media: object = {
-        youtube: false,
-        reddit: false,
-        facebook: false
-    };
+  loggedIn: boolean = true;
+  youtubeCheck: boolean = false;
+  redditCheck: boolean = false;
+  facebookCheck: boolean = false;
 
-  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider) {
+  constructor(public navCtrl: NavController, private youtubePvd: YoutubeProvider, private storage: Storage) {
 
   }
 
   start() {
       this.loggedIn = false;
+      this.fadeInLine = true;
       this.showMedia = true;
       setTimeout(() => this.fadeInLine = true, 500);
       setTimeout(() => document.getElementById("mainBtn").textContent = 'SUBMIT', 1000);
@@ -123,10 +123,11 @@ export class HomePage {
   }
 
   loginYoutubeCallback(code) {
-    this.youtubePvd.sendToken(code)
-    .subscribe(data => {
-      // loading stop
-      this.media.youtube = true;
-    });
+    this.storage.set('youtubeToken', code);
+    // loading stop
+  }
+
+  submit() {
+    // go to result page
   }
 }
