@@ -1,6 +1,12 @@
+//export GOOGLE_APPLICATION_CREDENTIALS="./calhacks.json"
 const express = require('express'); 
 const app = express();
-var exec = require('child_process').exec;
+const workerpool = require('workerpool')
+const path = require('path');
+const { spawn } = require('child_process');
+require('dotenv').config({path: path.join(__dirname,"settings.env")})
+//var exec = require('child_process').exec;
+//var worker = require('child_process');
 //TODO: check env variables here, to see if they're defined or not.
 
 /*Youtube OAuth stuff */
@@ -20,10 +26,13 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 //app.use(cookieParser());
 let clientSecret, clientId, redirectUrl, oauth2Client;
 
+
+// our worker pool for downloading and processing videos
+const pool = workerpool.pool(path.join(__dirname,"downloader_worker.js"));
 /* ==============================================Youtube Auth============================================= */
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/youtube-nodejs-quickstart.json
-var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly', 'https://www.googleapis.com/auth/cloud-platform'];
+var SCOPES = ['https://www.googleapis.com/auth/youtube.readonly'];
 
 let content = fs.readFileSync('client_secret.json');
 const credentials = JSON.parse(content);
@@ -58,31 +67,13 @@ app.post('/analyze', (req, res) => {
       'part': 'contentDetails', 'maxResults': '20'}} 
       /* insert youtube API specific req data here */
     ).then((video_items)=>{
-        // var video_ids = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
-
-        // for (var i = 0; i < video_ids.length ; i++){
-        //     exec(`./ytdl.sh ${video_ids[i]}`) 
-        // }
-
-        // Creates a client
-        console.log(video_items);        
-        const client = new vision.ImageAnnotatorClient();
-
-        client
-        .labelDetection('./ZfqmFfN.jpg')
-        .then(results => {
-          const labels = results[0].labelAnnotations;
-
-        console.log('Labels:');
-        labels.forEach(label => console.log(label.description));
-        })
-        .catch(err => {
+         //var video_urls = video_items.map((item)=>`https://youtube.com/watch?v=${item.id}`);
+         var video_ids = video_items.map((item)=>item.id);
+        pool.exec('process_video',video_ids).then((aggregated_gcp_output)=>{
+            //TODO: send the data to 9500 - NN server.
+        }).catch(err => {
           console.error('ERROR:', err);
         });
-
-
-
-
 
     }).catch((err)=>{
         console.error(err);
