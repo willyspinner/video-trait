@@ -26,9 +26,11 @@
               <ion-spinner *ngIf="redditLoading" name="crescent"></ion-spinner>
               <ion-icon *ngIf="redditCheck" name="checkmark"></ion-icon>
             </button>
-            <button (click)="loginYoutube()" color="facebook" ion-button icon-start large round class="huge-button">
-              <ion-icon name="logo-facebook"></ion-icon>
-              Facebook
+            <button [disabled]="facebookCheck" (click)="loginFacebook()" color="facebook" ion-button icon-start large round class="huge-button">
+              <ion-icon *ngIf="!facebookLoading && !facebookCheck" name="logo-facebook"></ion-icon>
+              <span *ngIf="!facebookLoading && !facebookCheck">Facebook</span>
+              <ion-spinner *ngIf="facebookLoading" name="crescent"></ion-spinner>
+              <ion-icon *ngIf="facebookCheck" name="checkmark"></ion-icon>
             </button>
         </div>
     </div>

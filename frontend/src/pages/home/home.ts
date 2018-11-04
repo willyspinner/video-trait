@@ -84,12 +84,13 @@ function _window(): any {
   ]})
 export class HomePage {
   showMedia: boolean = false;
-    fadeInLine: boolean = false;
+  fadeInLine: boolean = false;
   loggedIn: boolean = true;
   youtubeLoading: boolean = false;
   youtubeCheck: boolean = false;
   redditLoading: boolean = false;
   redditCheck: boolean = false;
+  facebookLoading: boolean = false;
   facebookCheck: boolean = false;
 
   constructor(public navCtrl: NavController, private dataPvd: DataProvider, private storage: Storage, private _zone: NgZone) {
@@ -155,6 +156,20 @@ export class HomePage {
       this.loggedIn = true;
       this.redditLoading = false;
       this.redditCheck = true;
+    });
+  }
+
+  loginFacebook() {
+    this.facebookLoading = true;
+    this.dataPvd.loginFacebook(res => {
+      if (res.status === 'connected') {
+        this.storage.set('facebookToken', res.authResponse.token);
+        this.loggedIn = true;
+        this.facebookLoading = false;
+        this.facebookCheck = true;
+      } else {
+        this.facebookLoading = false;
+      }
     });
   }
 

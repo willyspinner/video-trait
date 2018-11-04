@@ -47,4 +47,10 @@ export class DataProvider {
     });
   }
 
+  loginFacebook(cb) {
+    FB.login(res => {
+      return cb(res);
+    });
+  }
+
 }
