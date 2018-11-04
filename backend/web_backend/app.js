@@ -6,6 +6,7 @@ const workerpool = require("workerpool");
 const path = require("path");
 const { spawn } = require("child_process");
 var request = require("request");
+var fetch = require ('fetch');
 require("dotenv").config({ path: path.join(__dirname, "settings.env") });
 //var exec = require('child_process').exec;
 //var worker = require('child_process');
