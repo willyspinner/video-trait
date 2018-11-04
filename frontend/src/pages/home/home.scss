@@ -56,7 +56,7 @@ page-home {
                     opacity: .8;
                     }
                 }
-                transition: background-image ease-in .5s;
+                transition: background-image ease-in .5s !important;
             }
             
             #youtube {
@@ -106,11 +106,11 @@ page-home {
         }
         
         #youtube {
-            background-image: radial-gradient( circle 700px at 10% 20%,  rgba(205,0,0,1) 0%, rgba(0,0,0,0) 60vw );
+            background-image: radial-gradient( circle 700px at 10% 20%,  rgba(205,0,0,1) 0%, rgba(0,0,0,0) 60vw ) !important;
         }
         
         #youtube:hover {
-            background-image: radial-gradient( circle 700px at 10% 20%,  rgba(155,0,0,1) 0%, rgba(0,0,0,0) 60vw );
+            background-image: radial-gradient( circle 700px at 10% 20%,  rgba(155,0,0,1) 0%, rgba(0,0,0,0) 60vw ) !important;
         }
     }
 }
