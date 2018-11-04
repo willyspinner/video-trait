@@ -159,7 +159,7 @@ app.post("/api/analyze", (req, res) => {
    
     fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
       "method": "post",
-      "headers": {'Authorization':'Basic' + Buffer.from(reddit_id + ":" + reddit_secret).toString('base64') },
+      "headers": {'Authorization':'Basic ' + Buffer.from(reddit_id + ":" + reddit_secret).toString('base64') },
       "body": token_body
     }, (error, meta, body) => {
       if(error)
