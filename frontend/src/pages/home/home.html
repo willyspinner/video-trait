@@ -13,13 +13,21 @@
         </div>
         <div id="mediaLogins" [@fadeInOut]="showMedia ? 'in' : 'out'">
             <h2>Provide your social media accounts:</h2>
-            <ion-list>
-                <br>
-                <ion-item (click)="loginYoutube()" id="youtube">
-                    <ion-label>Login to YouTube</ion-label>
-                    <ion-checkbox [(ngModel)]="youtubeCheck" disabled></ion-checkbox>
-                </ion-item>
-            </ion-list>
+            <br>
+            <button (click)="loginYoutube()" color="youtube" ion-button icon-start large round class="huge-button">
+              <ion-icon *ngIf="!youtubeLoading && !youtubeCheck" name="logo-youtube"></ion-icon>
+              <span *ngIf="!youtubeLoading && !youtubeCheck">Youtube</span>
+              <ion-spinner *ngIf="youtubeLoading" name="crescent"></ion-spinner>
+              <ion-icon *ngIf="youtubeCheck" name="checkmark"></ion-icon>
+            </button>
+            <button (click)="loginYoutube()" color="reddit" ion-button icon-start large round class="huge-button">
+              <ion-icon name="logo-reddit"></ion-icon>
+              Reddit
+            </button>
+            <button (click)="loginYoutube()" color="facebook" ion-button icon-start large round class="huge-button">
+              <ion-icon name="logo-facebook"></ion-icon>
+              Facebook
+            </button>
         </div>
     </div>
 </ion-content>

@@ -7,6 +7,11 @@ page-home {
         background-image: linear-gradient(180.2deg, rgba(30, 33, 48, 1) 6.8%, rgba(34, 58, 70, 1) 131%);
     }
 
+    .huge-button {
+      width: 100%;
+      height: 10vh;
+    }
+
     #main-cont {
         color: color($colors, txt-dark);
     }
@@ -35,7 +40,7 @@ page-home {
 
         .list-md {
             border-radius: 10px !important;
-            
+
             height: inherit;
 
             .item-md {
@@ -58,7 +63,7 @@ page-home {
                 }
                 transition: background-image ease-in .5s !important;
             }
-            
+
             #youtube {
                 //color: color($colors, youtube);
                 background-image: radial-gradient( circle 700px at 10% 20%,  rgba(205,0,0,1) 0%, rgba(0,0,0,0) 40vw );
@@ -67,7 +72,7 @@ page-home {
                     height: 100%;
                 }
             }
-            
+
             #youtube:hover {
                 cursor: pointer;
                 background-image: radial-gradient( circle 700px at 10% 20%,  rgba(155,0,0,1) 0%, rgba(0,0,0,0) 40vw );
@@ -104,11 +109,11 @@ page-home {
             left: 15vw;
             width: 70vw;
         }
-        
+
         #youtube {
             background-image: radial-gradient( circle 700px at 10% 20%,  rgba(205,0,0,1) 0%, rgba(0,0,0,0) 60vw ) !important;
         }
-        
+
         #youtube:hover {
             background-image: radial-gradient( circle 700px at 10% 20%,  rgba(155,0,0,1) 0%, rgba(0,0,0,0) 60vw ) !important;
         }

@@ -85,7 +85,9 @@ $traits: (
 // then be future customized. This import comes last
 // so that the above variables are used and Ionic's
 // default are overridden.
-
+$spinner-ios-crescent-color: #fff;
+$spinner-md-crescent-color: #fff;
+$spinner-wp-crescent-color: #fff;
 @import "ionic.theme.default";
 
 

@@ -86,6 +86,7 @@ export class HomePage {
   showMedia: boolean = false;
     fadeInLine: boolean = false;
   loggedIn: boolean = true;
+  youtubeLoading: boolean = false;
   youtubeCheck: boolean = false;
   redditCheck: boolean = false;
   facebookCheck: boolean = false;
@@ -107,7 +108,7 @@ export class HomePage {
   }
 
   loginYoutube() {
-    // loading start
+    this.youtubeLoading = true;
     this.youtubePvd.login()
     .subscribe(data => {
       let url: any = data;
