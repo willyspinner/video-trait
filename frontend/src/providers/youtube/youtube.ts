@@ -16,14 +16,22 @@ export class YoutubeProvider {
   constructor(public http: HttpClient) {
   }
 
+  getRoute(): string {
+    if (config.prod) {
+      return config.domain + '/api';
+    } else {
+      return 'http://localhost:' + config.port;
+    }
+  }
+
   login(): Observable<Object> {
-    return this.http.get(config.domain + ':' + config.port + '/authUrl', {
+    return this.http.get(this.getRoute() + '/authUrl', {
       responseType: 'text'
     });
   }
 
   sendToken(code: string): Observable<Object> {
-    return this.http.post(config.domain + ':' + config.port + '/analyze', {
+    return this.http.post(this.getRoute() + '/analyze', {
       token: code
     });
   }
