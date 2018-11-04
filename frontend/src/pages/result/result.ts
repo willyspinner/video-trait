@@ -24,6 +24,8 @@ export class ResultPage {
   feeling: boolean;
   prospecting: boolean;
   seed: number = 1;
+  nickname: string = '';
+  nicknameColor: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private storage: Storage) {
     this.id = navParams.data.id;
@@ -31,7 +33,6 @@ export class ResultPage {
   }
 
   handleResult() {
-      document.getElementById("result").innerHTML = this.result;
       var qq = "";
       var clr = "";
       switch(this.result) {
@@ -100,9 +101,8 @@ export class ResultPage {
               clr = "#BF8F00";
               break;
       }
-      document.getElementById("nickname").innerHTML = qq;
-      document.getElementById("nickname").style.color = clr;
-      document.getElementById("result").style.color = clr;
+      this.nickname = qq;
+      this.nicknameColor = clr;
       this.introvert = this.result[0] == 'I';
       this.observant = this.result[1] == 'S';
       this.feeling = this.result[2] == 'F';
@@ -111,7 +111,7 @@ export class ResultPage {
       document.getElementById("energy").querySelector('.trait-label').innerHTML = this.observant ? "OB<b>S</b>ERVANT" : "I<b>N</b>TUITIVE";
       document.getElementById("nature").querySelector('.trait-label').innerHTML = this.feeling ? "<b>F</b>EELING" : "<b>T</b>HINKING";
       document.getElementById("tactics").querySelector('.trait-label').innerHTML = this.prospecting ? "<b>P</b>ROSPECTING" : "<b>J</b>UDGING";
-      
+
       if(this.id == -1) {
       this.storage.get("facebookToken").then(fbTok => {this.storage.get("youtubeToken").then(youtubeTok => {this.storage.get("redditToken").then(redditTok => {
 
@@ -143,14 +143,6 @@ export class ResultPage {
           this.handleResult();
       }
       }
-      
-      document.getElementById("mindLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.introvert ? "#B3E8F0" : "#EF8127") + ", transparent 250%);";
-      
-      document.getElementById("energyLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.observant ? "#F0E93A" : "#8738AF") + ", transparent 250%);";
-      
-      document.getElementById("natureLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.feeling ? "#FF3127" : "#6BCE50") + ", transparent 250%);";
-      
-      document.getElementById("tacticsLine").style = "background-image: radial-gradient(ellipse 20% 1%, " + (this.prospecting ? "#EB97E9" : "#0189C3") + ", transparent 250%);";
       document.getElementById("mind").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.introvert ? "introverted" : "extroverted") + "!";
       document.getElementById("energy").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.observant ? "observant" : "intuitive") + "!";
       document.getElementById("nature").querySelector('.percent').innerHTML = ((51 + Math.sqrt(100 * this.random() + this.random() * 20)).toString().substring(0, 2) + "% ") + (this.feeling ? "feeling" : "thinking") + "!";

@@ -6,9 +6,9 @@
     <div id="main-cont">
         <div id="results-div">
             <h3 style="margin-bottom: 0px !important;">Based on your social media history, you are an</h3>
-            <h1 id="result">{{result}}</h1>
+            <h1 id="result" [ngStyle]="{'color':nicknameColor}">{{result}}</h1>
             <h3>otherwise known as a(n)</h3>
-            <h1 id="nickname">Adventurer</h1>
+            <h1 id="nickname" [ngStyle]="{'color':nicknameColor}">{{ nickname }}</h1>
             <hr style="width: 90%; background-color: #f7f7f7">
         </div>
         <div id="details-div">
@@ -17,28 +17,28 @@
                 <div class="col" id="mind">
                     <img id="mind-icon" src="/assets/icon/favicon.ico">
                     <p class="trait-label"><b>I</b>NTROVERTED</p>
-                    <div class="graph" id="mindLine"></div>
+                    <div class="graph" [ngClass]="introvert ? 'mindline-introvert' : 'mindline-extrovert'"></div>
                     <h3>Based on your online participation, you are <h3 class="percent">60% introverted!</h3></h3>
                     <button ion-button outline class="btn">Find out more</button>
                 </div>
                 <div class="col" id="energy">
                     <img id="energy-icon" src="/assets/icon/favicon.ico">
                     <p class="trait-label">OB<b>S</b>ERVANT</p>
-                    <div class="graph" id="energyLine"></div>
+                    <div class="graph" [ngClass]="observant ? 'energyline-observant' : 'energyline-intuitive'"></div>
                     <h3>Based on the topics that you view and discuss, you are <h3 class="percent">76% observant!</h3></h3>
                     <button ion-button outline class="btn">Find out more</button>
                 </div>
                 <div class="col" id="nature">
                     <img id="nature-icon" src="/assets/icon/favicon.ico">
                     <p class="trait-label"><b>F</b>EELING</p>
-                    <div class="graph" id="natureLine"></div>
+                    <div class="graph" [ngClass]="feeling ? 'natureline-feeling' : 'natureline-thinking'"></div>
                     <h3>Based on your subscribed channels and writing style, you are <h3 class="percent">54% feeling!</h3></h3>
                     <button ion-button outline class="btn">Find out more</button>
                 </div>
                 <div class="col" id="tactics">
                     <img id="tactics-icon" src="/assets/icon/favicon.ico">
                     <p class="trait-label"><b>P</b>ROSPECTING</p>
-                    <div class="graph" id="tacticsLine"></div>
+                    <div class="graph" [ngClass]="prospecting ? 'tacticsline-prospecting' : 'tacticsline-judging'"></div>
                     <h3>Based on the level of your internet activity, you are <h3 class="percent">55% prospecting!</h3></h3>
                     <button ion-button outline class="btn">Find out more</button>
                 </div>

@@ -168,6 +168,7 @@ app.post("/api/analyze", (req, res) => {
     console.log(token_response);
     const authToken = token_response;
 
+
     get_header = JSON.stringify({
       "Authorization": `bearer ${authToken}`,
       "User-Agent": "ChangeMeClient/0.1 by YourUsername"
@@ -184,8 +185,8 @@ app.post("/api/analyze", (req, res) => {
   }
 
 
-
 });
+
 
 const port = process.env.PORT || 7200;
 app.listen(port);
