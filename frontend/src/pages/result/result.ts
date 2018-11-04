@@ -36,7 +36,7 @@ export class ResultPage {
       this.observant = this.result[1] == 'S';
       this.feeling = this.result[2] == 'F';
       this.prospecting = this.result[3] == 'P';
-      document.getElementById("mind").querySelector('.trait-label').innerHTML = this.introverted ? "<b>I</b>NTROVERTED" : "<b>E</b>XTROVERTED";
+      document.getElementById("mind").querySelector('.trait-label').innerHTML = this.introvert ? "<b>I</b>NTROVERTED" : "<b>E</b>XTROVERTED";
       document.getElementById("energy").querySelector('.trait-label').innerHTML = this.observant ? "OB<b>S</b>ERVANT" : "I<b>N</b>TUITIVE";
       document.getElementById("nature").querySelector('.trait-label').innerHTML = this.feeling ? "<b>F</b>EELING" : "<b>T</b>HINKING";
       document.getElementById("tactics").querySelector('.trait-label').innerHTML = this.prospecting ? "<b>P</b>ROSPECTING" : "<b>J</b>UDGING";
