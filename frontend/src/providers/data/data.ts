@@ -59,7 +59,9 @@ export class DataProvider {
   }
 
   sendTokens(tokens: object): Observable<Object> {
-    return this.http.post(this.getRoute() + '/analyze', tokens).pipe(timeout(90000));
+    return this.http.post(this.getRoute() + '/analyze', tokens, {
+      responseType: 'text'
+    }).pipe(timeout(90000));
   }
 
 }
