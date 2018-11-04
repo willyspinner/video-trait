@@ -150,8 +150,7 @@ app.post("/api/analyze", (req, res) => {
   /* =====================================Reddit analysis================================ */
   if (req.body.redditToken) {
     console.log("Here is the token: ", req.body.redditToken);
-    let headers = new Headers();
-    headers.append('Authorization', 'Basic' + base64.encode(reddit_id + ":" + reddit_secret));
+
     token_body = JSON.stringify({
       grant_type: "authorization_code",
       code: req.body.redditToken,
@@ -160,7 +159,7 @@ app.post("/api/analyze", (req, res) => {
    
     fetch.fetchUrl("https://www.reddit.com/api/v1/access_token", {
       "method": "post",
-      "headers": headers,
+      "headers": {'Authorization':'Basic' + base64.encode(reddit_id + ":" + reddit_secret) },
       "body": token_body
     }, (error, meta, body) => {
       if(error)
