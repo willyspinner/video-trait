@@ -58,17 +58,29 @@ page-result {
                     margin-top: -90px !important;
                     margin-bottom: -60px !important;
                 }
-                #mindLine {
-                    background-image: radial-gradient(ellipse 20% 1%, color($traits, introverted), transparent 250%);
+                .mindline-introvert {
+                  background-image: radial-gradient(ellipse 20% 1%, #B3E8F0, transparent 250%);
                 }
-                #energyLine {
-                    background-image: radial-gradient(ellipse 20% 1%, color($traits, observant), transparent 250%);
+                .mindline-extrovert {
+                  background-image: radial-gradient(ellipse 20% 1%, #EF8127, transparent 250%);
                 }
-                #natureLine {
-                    background-image: radial-gradient(ellipse 20% 1%, color($traits, feeling), transparent 250%);
+                .energyline-observant {
+                  background-image: radial-gradient(ellipse 20% 1%, #F0E93A, transparent 250%);
                 }
-                #tacticsLine {
-                    background-image: radial-gradient(ellipse 20% 1%, color($traits, prospecting), transparent 250%);
+                .energyline-intuitive {
+                  background-image: radial-gradient(ellipse 20% 1%, #8738AF, transparent 250%);
+                }
+                .natureline-feeling {
+                  background-image: radial-gradient(ellipse 20% 1%, #FF3127, transparent 250%);
+                }
+                .natureline-thinking {
+                  background-image: radial-gradient(ellipse 20% 1%, #6BCE50, transparent 250%);
+                }
+                .tacticsline-prospecting {
+                  background-image: radial-gradient(ellipse 20% 1%, #EB97E9, transparent 250%);
+                }
+                .tacticsline-judging {
+                  background-image: radial-gradient(ellipse 20% 1%, #0189C3, transparent 250%);
                 }
 
                 .trait-label {
