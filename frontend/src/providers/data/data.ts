@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FacebookService, InitParams, LoginResponse } from 'ngx-facebook';
 import { config } from '../../config';
 
 /*
@@ -12,7 +13,14 @@ import { config } from '../../config';
 @Injectable()
 export class DataProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private fb: FacebookService) {
+    let initParams: InitParams = {
+      appId: '264886297417617',
+      xfbml: true,
+      version: 'v3.2'
+    };
+
+    fb.init(initParams);
   }
 
   getRoute(): string {
@@ -48,13 +56,14 @@ export class DataProvider {
   }
 
   loginFacebook(cb) {
-    FB.getLoginStatus(res => {
-      if (res.status === 'connected') {
-        return cb(res)
+    this.fb.getLoginStatus()
+    .then((response: LoginResponse) => {
+      if (response.status === 'connected') {
+        return cb(response);
       } else {
-        FB.login(res => {
-          return cb(res);
-        });
+        this.fb.login((response: LoginResponse) => {
+          return cb(response);
+        })
       }
     });
   }
