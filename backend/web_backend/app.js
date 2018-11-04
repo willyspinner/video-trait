@@ -52,6 +52,7 @@ app.post('/api/analyze', (req, res) => {
         res.status(400).json({"error":"No token present."});
         return;
     }
+    req.body.token = req.body.token.replace('%2F', '/');
     oauth2Client.getToken(req.body.token, function(err, token) {
       if (err) {
         res.status(400).json({"error":"token error."});
