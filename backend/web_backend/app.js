@@ -1,4 +1,6 @@
-const express = require('express'); 
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
 const app = express();
 //TODO: check env variables here, to see if they're defined or not.
 
@@ -10,6 +12,8 @@ var OAuth2 = google.auth.OAuth2;
 
 
 const bodyParser = require('body-parser')
+app.use(morgan('tiny'));
+app.use(cors());
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -26,7 +30,7 @@ let content = fs.readFileSync('client_secret.json');
 const credentials = JSON.parse(content);
 clientSecret = credentials.web.client_secret;
 clientId = credentials.web.client_id;
-redirectUrl = credentials.web.redirect_uri; 
+redirectUrl = credentials.web.redirect_uri;
 oauth2Client = new OAuth2(clientId, clientSecret, redirectUrl);
 
 app.get('/authUrl', (req,res)=>{
@@ -52,7 +56,7 @@ app.post('/analyze', (req, res) => {
       oauth2Client.credentials = token;
       videosListMyRatedVideos(oauth2Client,
         {'params': {'myRating': 'like',
-      'part': 'contentDetails'}} 
+      'part': 'contentDetails'}}
       /* insert youtube API specific req data here */
     ).then((video_items)=>{
         console.log(video_items)
@@ -61,7 +65,7 @@ app.post('/analyze', (req, res) => {
         console.error(err);
         res.status(500).json({"error":"Youtube API error."});
     })
-    
+
  })
 });
 
