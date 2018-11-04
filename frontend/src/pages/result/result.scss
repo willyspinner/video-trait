@@ -44,7 +44,7 @@ page-result {
 
         .row {
             width: 90%;
-            height: 300px;
+            height: 45vh;
             margin: auto;
 
             .col {
@@ -97,5 +97,35 @@ page-result {
         font-size: 4em;
     }
 
-    @media (max-width: 1023px) {}
+    @media (max-width: 1023px) {
+        #main-cont {
+            .row {
+                .col {
+                    min-width: 33vw !important;
+                    min-height: 33vw;
+                    .trait-label {
+                        margin: 10px;
+                    }
+                    .graph {
+                        max-height: 100px;
+                        margin-top: -50px !important;
+                        margin-bottom: -20px !important;
+                    }
+                }
+            }
+        }
+    }
+    @media (max-width: 850px) {
+        #main-cont {
+            .row {
+                .col {
+                    min-width: 50vw !important;
+                    min-height: 50vh !important;
+                    img {
+                        zoom: .5;
+                    }
+                }
+            }
+        }
+    }
 }
