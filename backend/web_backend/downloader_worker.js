@@ -29,10 +29,7 @@ const work = (vid_id)=>{
                     resolve(full_video_sentence);
                 })
             })
-    }).catch(err => {
-        console.error('ERROR:', err);
-        reject(err);
-    });
+    })
     })
 }
 workerpool.worker({
